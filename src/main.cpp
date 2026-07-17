@@ -27,8 +27,13 @@
 #include "../include/PresentationFormatter.h"
 #include "../include/TransportRegistry.h"
 #include "../include/DummyTransport.h"
+#include "../include/transports/DIALTransport.h"
 #include "../include/DeviceExecutor.h"
+#include "../src/persistence/FileKnowledgeStore.h"
+#include "../include/services/KnowledgeStore.h"
+#include "../include/services/KnowledgeSynchronizer.h"
 #include "core/Packet.h"
+#include "../include/NetworkStackGuard.h"
 
 #include <algorithm>
 #include <iomanip>
@@ -130,6 +135,10 @@ int main(int argc, char* argv[])
     SetConsoleCP(CP_UTF8);
 #endif
 
+#ifdef _WIN32
+    NetworkStackGuard netGuard;
+#endif
+
     bool listenMode = false;
     bool helpMode   = false;
     for (int i = 1; i < argc; ++i) {
@@ -167,6 +176,20 @@ int main(int argc, char* argv[])
               << "  MX          : " << MX_SECONDS << "s\n"
               << "  Timeout     : " << TIMEOUT_SECONDS << "s\n"
               << "  Capture dir : " << writer.BasePath() << "\n\n";
+
+    PrintHeader("PHASE 5.5: KNOWLEDGE LAYER RESTORATION");
+    auto fileStore = std::make_unique<FileKnowledgeStore>("data/knowledge");
+    KnowledgeStore knowledgeStore(std::move(fileStore));
+    knowledgeStore.Initialize();
+
+    NetworkFingerprint networkFingerprint;
+    networkFingerprint.evidence.ssid = "LocalNetwork"; // Heuristic placeholder
+    knowledgeStore.ResolveKnownNetwork(networkFingerprint);
+    
+    std::cout << "  Restored " << knowledgeStore.GetLoadedEntities().size() << " entities from network: " << networkFingerprint.CalculateId() << "\n";
+    std::cout << "  [Placeholder] Knowledge Ranking executed.\n";
+    std::cout << "  [Placeholder] Passive Validation executed.\n";
+    std::cout << "  [Placeholder] Conditional Discovery triggered (Active discovery forced for backward compatibility).\n\n";
 
     SSDPClient client;
     try { client.Initialize(); }
@@ -287,11 +310,19 @@ int main(int argc, char* argv[])
     PresentationFormatter::PrintLogicalDevices(logicalDevices);
     PrintDiscoverySummary(allResults, logicalDevices, writer);
 
+    PrintHeader("KNOWLEDGE MERGE");
+    for (const auto& logicalDev : logicalDevices) {
+        knowledgeStore.UpdateFromDiscovery(logicalDev);
+    }
+    std::cout << "  Merged " << logicalDevices.size() << " devices into Knowledge Store (" 
+              << knowledgeStore.GetLoadedEntities().size() << " total entities known).\n\n";
+
     PrintHeader("PHASE 5: COMMAND EXECUTION DEMONSTRATION");
     
     // 1. Initialize execution framework
     TransportRegistry transportRegistry;
     transportRegistry.RegisterTransport(std::make_shared<DummyTransport>());
+    transportRegistry.RegisterTransport(std::make_shared<DIALTransport>());
     DeviceExecutor executor(transportRegistry, controllerRegistry);
 
     // 2. Find a device with an actionable command to demonstrate execution
@@ -299,18 +330,33 @@ int main(int argc, char* argv[])
     ActionDescriptor actionToExecute;
     bool isSimulated = false;
 
+    // First pass: specifically look for a DIAL-capable device
+    std::cout << "  [DEBUG] --- First Pass: Searching for LaunchApplication ---\n";
     for (const auto& dev : logicalDevices) {
-        if (!dev.actions.empty()) {
-            targetDevice = &dev;
-            actionToExecute = dev.actions[0];
-            // Prefer VolumeUp if available
-            for (const auto& action : dev.actions) {
-                if (action.id == "VolumeUp") {
-                    actionToExecute = action;
-                    break;
-                }
+        std::cout << "  [DEBUG] Evaluating device: " << dev.displayName << " (Actions: " << dev.actions.size() << ")\n";
+        for (const auto& action : dev.actions) {
+            std::cout << "  [DEBUG]   Checking action: " << action.id << "\n";
+            if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
+                std::cout << "  [DEBUG]   -> Match found! Selecting LaunchApplication.\n";
+                targetDevice = &dev;
+                actionToExecute = action;
+                break;
             }
-            break;
+        }
+        if (targetDevice) break;
+    }
+
+    // Second pass: if no DIAL device found, just pick the first device with any actions
+    if (!targetDevice) {
+        std::cout << "  [DEBUG] --- Second Pass: Fallback to any action ---\n";
+        for (const auto& dev : logicalDevices) {
+            std::cout << "  [DEBUG] Evaluating device: " << dev.displayName << " (Actions: " << dev.actions.size() << ")\n";
+            if (!dev.actions.empty()) {
+                targetDevice = &dev;
+                actionToExecute = dev.actions[0];
+                std::cout << "  [DEBUG]   -> Picked first available action: " << actionToExecute.id << "\n";
+                break;
+            }
         }
     }
 
@@ -326,18 +372,30 @@ int main(int argc, char* argv[])
         if (isSimulated) {
             std::cout << "  [SIMULATED -- no real actionable device found on this run]\n";
             std::cout << "  Injecting a synthetic action into the first discovered device to demonstrate the execution framework.\n\n";
+        } else if (actionToExecute.id == "LaunchApplication(name)" || actionToExecute.id == "LaunchApplication") {
+            std::cout << "  [DEMO] Attempting to launch YouTube via DIAL on " << targetDevice->displayName << "...\n\n";
         }
 
         // 3. Build and dispatch the request
-        ExecutionRequest req { *targetDevice, actionToExecute, {}, 5000, 0 };
+        std::map<std::string, std::string> reqParams;
+        if (actionToExecute.id == "LaunchApplication(name)" || actionToExecute.id == "LaunchApplication") {
+            reqParams["name"] = "YouTube";
+        }
+        ExecutionRequest req { *targetDevice, actionToExecute, reqParams, 5000, 0 };
         ExecutionResult res = executor.Execute(req);
         
+        // 4. Synchronize execution result back to knowledge layer
+        KnowledgeSynchronizer synchronizer(knowledgeStore);
+        std::string transportUsed = "DIALTransport";
+        if (res.status == ExecutionStatus::TransportUnavailable) transportUsed = "DummyTransport"; // fallback check loosely
+        synchronizer.OnExecutionCompleted(targetDevice->id, transportUsed, res);
+
         std::cout << "  Execution Result: " << ToString(res.status) 
-                  << " -- Dummy transport executed in " << res.elapsedTimeMs << "ms.\n";
+                  << " -- executed in " << res.elapsedTimeMs << "ms.\n";
         if (!res.diagnosticInfo.empty()) {
             std::cout << "  Diagnostic Info : " << res.diagnosticInfo << "\n";
         }
-        std::cout << "\n";
+        std::cout << "  [KnowledgeSynchronizer] CommunicationRecord appended to journal.\n\n";
     } else {
         std::cout << "  No devices found to demonstrate execution.\n";
     }

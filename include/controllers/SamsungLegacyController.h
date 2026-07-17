@@ -132,6 +132,10 @@ public:
                     break;
                 }
             }
+        } else if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
+            // SamsungLegacyController does not implement DIAL natively.
+            // Defer to GenericDLNAController by returning nullopt to trigger fallback.
+            return std::nullopt;
         } else {
             route.transport = TransportFamily::SOAP;
             for (const auto& ep : device.endpoints) {

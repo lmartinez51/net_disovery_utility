@@ -21,16 +21,26 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 namespace NetDiscovery {
 
 /**
- * @brief Simple synchronous HTTP/1.1 GET client for fetching UPnP descriptions.
+ * @brief Represents an HTTP response.
+ */
+struct HttpResponse {
+    int statusCode = 0;
+    std::map<std::string, std::string> headers;
+    std::string body;
+};
+
+/**
+ * @brief Simple synchronous HTTP/1.1 client for fetching UPnP descriptions and executing REST commands.
  *
  * Intended usage (Phase 3+):
  * @code
  *   HttpClient http;
- *   std::string body = http.Get("http://192.168.1.50:49153/description.xml");
+ *   HttpResponse res = http.Get("http://192.168.1.50:49153/description.xml");
  * @endcode
  */
 class HttpClient {
@@ -47,24 +57,24 @@ public:
     HttpClient() = default;
 
     /**
-     * @brief Perform an HTTP GET request and return the response body.
-     *
-     * Parses the URL into host, port, and path components, opens a TCP
-     * connection, sends an HTTP/1.1 GET request, and returns the body.
-     *
-     * @param url  Absolute HTTP URL (e.g. "http://192.168.1.50:49153/desc.xml").
-     * @return Response body as a raw string.
-     *
-     * @throws std::runtime_error("Not implemented") — Phase 1/2 stub.
-     *
-     * TODO (Phase 3):
-     *   - Implement TCP connect via WinSock2 / lwIP.
-     *   - Send HTTP/1.1 GET with correct headers.
-     *   - Read response headers and body.
-     *   - Handle chunked transfer encoding.
-     *   - Follow redirects up to MAX_REDIRECTS.
+     * @brief Perform an HTTP request.
      */
-    std::string Get(const std::string& url);
+    HttpResponse SendRequest(const std::string& method, const std::string& url, const std::string& body = "", const std::map<std::string, std::string>& extraHeaders = {});
+
+    /**
+     * @brief Convenience wrapper for GET.
+     */
+    HttpResponse Get(const std::string& url, const std::map<std::string, std::string>& extraHeaders = {});
+
+    /**
+     * @brief Convenience wrapper for POST.
+     */
+    HttpResponse Post(const std::string& url, const std::string& body = "", const std::map<std::string, std::string>& extraHeaders = {});
+
+    /**
+     * @brief Convenience wrapper for DELETE.
+     */
+    HttpResponse Delete(const std::string& url, const std::map<std::string, std::string>& extraHeaders = {});
 
 private:
     /**

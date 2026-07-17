@@ -34,6 +34,7 @@ set(NETDISCOVERY_SOURCES
     src/Header.cpp              # FindHeader / GetHeaderValue free functions
 
     # ── Transport layer ───────────────────────────────
+    src/NetworkStackGuard.cpp   # Core Winsock RAII manager
     src/UdpSocket.cpp           # Active M-SEARCH transport
     src/MulticastSocket.cpp     # Passive multicast receiver
     src/SSDPClient.cpp          # Active + passive SSDP client (transport)
@@ -69,10 +70,16 @@ set(NETDISCOVERY_SOURCES
     
     # ── Phase 5: Command Execution Framework ──────────
     src/DummyTransport.cpp
+    src/transports/DIALTransport.cpp
     src/TransportRegistry.cpp
     src/TransportSelector.cpp
     src/ExecutionEngine.cpp
     src/DeviceExecutor.cpp
+
+    # ── Phase 5.5: Device Knowledge Store ─────────────
+    src/persistence/FileKnowledgeStore.cpp
+    src/services/KnowledgeStore.cpp
+    src/services/KnowledgeSynchronizer.cpp
 )
 
 set(NETDISCOVERY_HEADERS
@@ -98,6 +105,12 @@ set(NETDISCOVERY_HEADERS
     include/core/ExecutionRequest.h
     include/core/ExecutionResult.h
     include/core/ExecutionRoute.h
+
+    # ── Phase 5.5 Models (core/) ──────────────────────
+    include/core/NetworkFingerprint.h
+    include/core/KnowledgeModels.h
+    include/core/KnowledgeEntity.h
+    include/core/ExecutionContext.h
 
     # ── Protocol interface & analyzers ────────────────
     include/IProtocolAnalyzer.h
@@ -126,10 +139,19 @@ set(NETDISCOVERY_HEADERS
     # ── Phase 5: Command Execution Framework ──────────
     include/ICommunicationTransport.h
     include/DummyTransport.h
+    include/transports/DIALTransport.h
     include/TransportRegistry.h
     include/TransportSelector.h
     include/ExecutionEngine.h
     include/DeviceExecutor.h
+
+    # ── Phase 5.5: Device Knowledge Store ─────────────
+    include/persistence/IKnowledgeStore.h
+    src/persistence/FileKnowledgeStore.h
+    include/services/IKnowledgeValidator.h
+    include/services/IKnowledgeRanker.h
+    include/services/KnowledgeStore.h
+    include/services/KnowledgeSynchronizer.h
 
     # ── Transport layer ───────────────────────────────
     include/UdpSocket.h

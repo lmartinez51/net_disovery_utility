@@ -1,4 +1,5 @@
 #include "../include/DeviceFusionEngine.h"
+#include <iostream>
 #include <algorithm>
 #include <map>
 #include <set>
@@ -164,16 +165,55 @@ std::vector<LogicalDevice> DeviceFusionEngine::Fuse(const std::vector<IdentityEv
                 newDev.signature.presentationUrl = ev.presentationUrl;
                 newDev.provenance.Track("presentationUrl", src);
             }
+        } // End of first loop
 
-            ProtocolEndpoint endpoint;
-            endpoint.uuid = ev.uuid;
-            endpoint.ip = ev.ip;
-            endpoint.serverHeader = ev.serverHeader;
-            endpoint.discoverySources.push_back(src);
-            endpoint.evidence = ev.protocolEvidence;
-            newDev.endpoints.push_back(std::move(endpoint));
+        std::map<std::string, ProtocolEndpoint> epMap;
+        for (const auto& ev : group) {
+            auto& endpoint = epMap[ev.ip];
+            if (endpoint.ip.empty()) {
+                endpoint.ip = ev.ip;
+                endpoint.uuid = ev.uuid;
+            }
+            if (endpoint.serverHeader.empty() && !ev.serverHeader.empty()) {
+                endpoint.serverHeader = ev.serverHeader;
+            }
+            // Add discovery source if not already present
+            if (std::find(endpoint.discoverySources.begin(), endpoint.discoverySources.end(), ev.source) == endpoint.discoverySources.end()) {
+                endpoint.discoverySources.push_back(ev.source);
+            }
+            
+            // Merge UPnP Evidence
+            if (ev.protocolEvidence.upnp.has_value()) {
+                if (!endpoint.evidence.upnp.has_value()) {
+                    endpoint.evidence.upnp = ev.protocolEvidence.upnp;
+                } else {
+                    auto& existUpnp = endpoint.evidence.upnp.value();
+                    const auto& liveUpnp = ev.protocolEvidence.upnp.value();
+                    if (existUpnp.applicationUrl.empty()) existUpnp.applicationUrl = liveUpnp.applicationUrl;
+                    if (existUpnp.locationUrl.empty()) existUpnp.locationUrl = liveUpnp.locationUrl;
+                    if (existUpnp.deviceType.empty()) existUpnp.deviceType = liveUpnp.deviceType;
+                    
+                    for (const auto& svc : liveUpnp.services) {
+                        bool found = false;
+                        for (const auto& eSvc : existUpnp.services) {
+                            if (eSvc.serviceType == svc.serviceType) { found = true; break; }
+                        }
+                        if (!found) existUpnp.services.push_back(svc);
+                    }
+                    for (const auto& ico : liveUpnp.icons) {
+                        bool found = false;
+                        for (const auto& eIco : existUpnp.icons) {
+                            if (eIco.url == ico.url) { found = true; break; }
+                        }
+                        if (!found) existUpnp.icons.push_back(ico);
+                    }
+                }
+            }
         }
-
+        
+        for (auto& pair : epMap) {
+            newDev.endpoints.push_back(std::move(pair.second));
+        }
         baseDevices.push_back(std::move(newDev));
     }
     

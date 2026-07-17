@@ -61,7 +61,7 @@ void TcpSocket::Connect(const std::string& host, uint16_t port)
 
         // Apply receive timeout
         try {
-            Platform::SetSocketTimeoutMs(sock, 5); // 5 second timeout
+            Platform::SetSocketTimeoutMs(sock, 15); // 15 second timeout for slow DIAL devices
         } catch (...) {
             closesocket(sock);
             continue;

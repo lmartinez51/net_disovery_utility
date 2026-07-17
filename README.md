@@ -190,7 +190,7 @@ The pipeline architecture (`DeviceFusionEngine`, `ControllerResolver`, `XmlAnaly
 | **4** | Discovery | ✅ |
 | **4.5** | Intelligence Pipeline | ✅ |
 | **5** | Execution Framework | ✅ |
-| **5.5** | Device Knowledge Store | ⭐ |
+| **5.5** | Device Knowledge Store | ✅ |
 | **6** | DIAL Transport | ⭐ |
 | **7** | SOAP Transport | ⭐ |
 | **7.5** | Shared Execution Services<br>- Retry Policy<br>- Authentication Manager<br>- Execution Context<br>- Transport Capabilities | ⭐ |

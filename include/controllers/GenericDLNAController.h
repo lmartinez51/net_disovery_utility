@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <iostream>
 #include "../IDeviceController.h"
 
 namespace NetDiscovery {
@@ -24,7 +25,8 @@ public:
             Capability::MediaPlayback,
             Capability::MediaTransport,
             Capability::VolumeControl,
-            Capability::Mute
+            Capability::Mute,
+            Capability::ApplicationLaunching
         };
     }
 
@@ -66,6 +68,9 @@ public:
             } else if (svc.name == "RenderingControl") {
                 diag.score += 10;
                 diag.scoreBreakdown.push_back({"RenderingControl", 10});
+            } else if (svc.name == "DIAL") {
+                diag.score += 30;
+                diag.scoreBreakdown.push_back({"DIAL Service", 30});
             }
         }
 
@@ -80,7 +85,7 @@ public:
 
     bool ValidateEndpoints(const LogicalDevice& device) const override {
         for (const auto& svc : device.normalizedServices) {
-            if (svc.name == "RenderingControl" || svc.name == "AVTransport" || svc.name == "ContentDirectory") {
+            if (svc.name == "RenderingControl" || svc.name == "AVTransport" || svc.name == "ContentDirectory" || svc.name == "DIAL") {
                 return true;
             }
         }
@@ -92,6 +97,44 @@ public:
         const ActionDescriptor& action) const override {
         
         ExecutionRoute route;
+
+        // DIAL Support
+        if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
+            bool isDial = false;
+            for (const auto& r : device.roles) {
+                if (r == DeviceRole::DIALReceiver) {
+                    isDial = true;
+                    break;
+                }
+            }
+            if (!isDial) {
+                for (const auto& svc : device.normalizedServices) {
+                    if (svc.name == "DIAL") {
+                        isDial = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isDial) {
+                route.transport = TransportFamily::DIAL;
+                for (const auto& ep : device.endpoints) {
+                    if (ep.evidence.upnp.has_value()) {
+                        route.preferredEndpoint = &ep;
+                        
+                        if (!ep.evidence.upnp->applicationUrl.empty()) {
+                            route.metadata["Application-URL"] = ep.evidence.upnp->applicationUrl;
+                            std::cout << "[Metadata] GenericDLNAController adding Application-URL to route: " << ep.evidence.upnp->applicationUrl << "\n";
+                        } else {
+                            std::cout << "[Metadata] GenericDLNAController found NO Application-URL in endpoint evidence\n";
+                        }
+                        return route;
+                    }
+                }
+            }
+        }
+
+        // Default SOAP Support
         route.transport = TransportFamily::SOAP;
         
         // Find the most appropriate endpoint based on action category

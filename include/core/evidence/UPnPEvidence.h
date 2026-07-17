@@ -38,6 +38,7 @@ struct UPnPIcon {
 struct UPnPEvidence {
     std::string rawXml;
     std::string locationUrl;
+    std::string applicationUrl;
     std::vector<UPnPService> services;
     std::vector<UPnPIcon> icons;
     std::string deviceType;

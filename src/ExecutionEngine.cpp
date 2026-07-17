@@ -1,4 +1,5 @@
 #include "ExecutionEngine.h"
+#include <iostream>
 #include <chrono>
 
 namespace NetDiscovery {
@@ -11,9 +12,7 @@ ExecutionEngine::ExecutionEngine(const TransportRegistry& transportRegistry,
 ExecutionResult ExecutionEngine::Execute(const ExecutionRequest& request) {
     auto startTime = std::chrono::steady_clock::now();
     
-    // 1. Find the best controller for the device
-    // The device already has controllerCandidates sorted, but ExecutionEngine 
-    // asks the registry to get the actual instance to query GetExecutionRoute.
+    // 1 & 2. Find a controller that supports the requested action
     if (request.device.controllerCandidates.empty()) {
         ExecutionResult res;
         res.status = ExecutionStatus::ExecutionFailed;
@@ -21,31 +20,41 @@ ExecutionResult ExecutionEngine::Execute(const ExecutionRequest& request) {
         return res;
     }
     
-    // Get the top ranked controller name
-    std::string topControllerName = request.device.controllerCandidates.front().name;
     auto& controllers = controllerRegistry.GetControllers();
-    
-    IDeviceController* activeController = nullptr;
-    for (const auto& c : controllers) {
-        if (c->ControllerName() == topControllerName) {
-            activeController = c.get();
-            break;
+    std::optional<ExecutionRoute> routeOpt = std::nullopt;
+
+    for (const auto& candidate : request.device.controllerCandidates) {
+        if (candidate.isRejected) continue; // Skip rejected candidates
+
+        IDeviceController* activeController = nullptr;
+        for (const auto& c : controllers) {
+            if (c->ControllerName() == candidate.name) {
+                activeController = c.get();
+                break;
+            }
+        }
+
+        if (activeController) {
+            routeOpt = activeController->GetExecutionRoute(request.device, request.action);
+            if (routeOpt.has_value()) {
+                std::cout << "  [ExecutionEngine] Controller '" << activeController->ControllerName() << "' returned a route.\n";
+                std::cout << "  [ExecutionEngine]   -> TransportFamily: " << ToString(routeOpt->transport) << "\n";
+                std::cout << "  [ExecutionEngine]   -> Metadata keys: " << routeOpt->metadata.size() << "\n";
+                if (routeOpt->preferredEndpoint) {
+                    std::cout << "  [ExecutionEngine]   -> Preferred Endpoint IP: " << routeOpt->preferredEndpoint->ip << "\n";
+                    if (routeOpt->preferredEndpoint->evidence.upnp.has_value()) {
+                        std::cout << "  [ExecutionEngine]      - UPnP Location: " << routeOpt->preferredEndpoint->evidence.upnp->locationUrl << "\n";
+                    }
+                }
+                break; // Found a controller that supports the action
+            }
         }
     }
 
-    if (!activeController) {
-        ExecutionResult res;
-        res.status = ExecutionStatus::ExecutionFailed;
-        res.errorMessage = "Failed to resolve controller instance: " + topControllerName;
-        return res;
-    }
-
-    // 2. Ask the controller for the execution route
-    auto routeOpt = activeController->GetExecutionRoute(request.device, request.action);
     if (!routeOpt.has_value()) {
         ExecutionResult res;
         res.status = ExecutionStatus::UnsupportedAction;
-        res.errorMessage = "Controller does not know how to execute this action.";
+        res.errorMessage = "No accepted controller supports the requested action.";
         auto endTime = std::chrono::steady_clock::now();
         res.elapsedTimeMs = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count());
         return res;

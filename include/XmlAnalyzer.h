@@ -34,7 +34,7 @@ public:
 
 private:
     IdentityEvidence ParseDeviceDescription(const std::string& xml, const std::string& locationUrl) const;
-    void ParseDeviceNode(const std::string& deviceXml, const std::string& locationUrl, IdentityEvidence& dev) const;
+    void ParseDeviceNode(const std::string& deviceXml, const std::string& locationUrl, const std::string& applicationUrl, IdentityEvidence& dev) const;
     
     std::string ExtractElement(const std::string& xml, const std::string& tagName) const;
     std::vector<std::string> ExtractElements(const std::string& xml, const std::string& tagName) const;

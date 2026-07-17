@@ -4,6 +4,7 @@
  */
 
 #include "../include/HttpClient.h"
+#include <iostream>
 #include "../include/TcpSocket.h"
 
 #include <stdexcept>
@@ -57,7 +58,7 @@ void HttpClient::ParseUrl(const std::string& url, std::string& host, int& port, 
     }
 }
 
-std::string HttpClient::Get(const std::string& url)
+HttpResponse HttpClient::SendRequest(const std::string& method, const std::string& url, const std::string& reqBody, const std::map<std::string, std::string>& extraHeaders)
 {
     std::string currentUrl = url;
     int redirects = 0;
@@ -71,10 +72,25 @@ std::string HttpClient::Get(const std::string& url)
         TcpSocket sock;
         sock.Connect(host, static_cast<uint16_t>(port));
 
-        std::string request = "GET " + path + " HTTP/1.1\r\n"
+        std::string request = method + " " + path + " HTTP/1.1\r\n"
                               "Host: " + host + ":" + std::to_string(port) + "\r\n"
                               "Connection: close\r\n"
-                              "Accept: */*\r\n\r\n";
+                              "Accept: */*\r\n";
+        
+        bool hasContentType = false;
+        for (const auto& kv : extraHeaders) {
+            request += kv.first + ": " + kv.second + "\r\n";
+            if (IEquals(kv.first, "Content-Type")) hasContentType = true;
+        }
+
+        if (method == "POST" || method == "PUT" || !reqBody.empty()) {
+            request += "Content-Length: " + std::to_string(reqBody.length()) + "\r\n";
+            if (!hasContentType) {
+                request += "Content-Type: text/plain; charset=\"utf-8\"\r\n";
+            }
+        }
+        request += "\r\n";
+        request += reqBody;
 
         sock.Send(request);
 
@@ -99,7 +115,9 @@ std::string HttpClient::Get(const std::string& url)
         std::string statusCodeStr = line.substr(sp1 + 1, sp2 - sp1 - 1);
         int statusCode = std::stoi(statusCodeStr);
 
-        // Parse headers
+        HttpResponse res;
+        res.statusCode = statusCode;
+
         int contentLength = -1;
         bool chunked = false;
         std::string location;
@@ -118,6 +136,8 @@ std::string HttpClient::Get(const std::string& url)
                     headerVal = headerVal.substr(first);
                 }
 
+                res.headers[headerName] = headerVal;
+
                 if (IEquals(headerName, "Content-Length")) {
                     contentLength = std::stoi(headerVal);
                 } else if (IEquals(headerName, "Transfer-Encoding") && headerVal.find("chunked") != std::string::npos) {
@@ -128,15 +148,13 @@ std::string HttpClient::Get(const std::string& url)
             }
         }
 
-        if (statusCode >= 300 && statusCode < 400 && !location.empty()) {
+        // We only follow redirects if the method is GET or if we implicitly want to.
+        // For simplicity, we follow GET/HEAD redirects.
+        if (statusCode >= 300 && statusCode < 400 && !location.empty() && (method == "GET" || method == "HEAD")) {
             // Redirect
             currentUrl = location;
             redirects++;
             continue;
-        }
-
-        if (statusCode < 200 || statusCode >= 300) {
-            throw std::runtime_error("HTTP request failed with status: " + std::to_string(statusCode));
         }
 
         // Handle chunked body
@@ -164,17 +182,30 @@ std::string HttpClient::Get(const std::string& url)
                 // Read the trailing CRLF after the chunk
                 GetLine(buffer, line); 
             }
-            return decodedBody;
+            res.body = decodedBody;
+        } else {
+            if (contentLength >= 0 && buffer.length() > static_cast<size_t>(contentLength)) {
+                buffer.resize(contentLength);
+            }
+            res.body = buffer;
         }
 
-        if (contentLength >= 0 && buffer.length() > static_cast<size_t>(contentLength)) {
-            buffer.resize(contentLength);
-        }
-
-        return buffer;
+        return res;
     }
 
-    throw std::runtime_error("HttpClient::Get — Too many redirects");
+    throw std::runtime_error("HttpClient::SendRequest — Too many redirects");
+}
+
+HttpResponse HttpClient::Get(const std::string& url, const std::map<std::string, std::string>& extraHeaders) {
+    return SendRequest("GET", url, "", extraHeaders);
+}
+
+HttpResponse HttpClient::Post(const std::string& url, const std::string& body, const std::map<std::string, std::string>& extraHeaders) {
+    return SendRequest("POST", url, body, extraHeaders);
+}
+
+HttpResponse HttpClient::Delete(const std::string& url, const std::map<std::string, std::string>& extraHeaders) {
+    return SendRequest("DELETE", url, "", extraHeaders);
 }
 
 } // namespace NetDiscovery

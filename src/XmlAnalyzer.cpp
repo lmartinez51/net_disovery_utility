@@ -5,6 +5,7 @@
 
 #include "../include/XmlAnalyzer.h"
 #include "../include/DeviceRegistry.h"
+#include <iostream>
 #include "../include/core/evidence/IdentityEvidence.h"
 
 namespace NetDiscovery {
@@ -21,6 +22,15 @@ void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
         locationUrl = it->second;
     }
 
+    std::string applicationUrl;
+    auto appIt = packet.metadata.find("Application-URL");
+    if (appIt != packet.metadata.end()) {
+        applicationUrl = appIt->second;
+        std::cout << "[Metadata] XmlAnalyzer transferred Application-URL to UPnPEvidence: " << appIt->second << "\n";
+    } else {
+        std::cout << "[Metadata] XmlAnalyzer found no Application-URL in packet metadata\n";
+    }
+
     std::string xml = packet.rawPayload;
     if (xml.empty()) return;
 
@@ -35,7 +45,7 @@ void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
     
     // Parse the root device
     IdentityEvidence rootDevice;
-    ParseDeviceNode(rootDeviceXml, locationUrl, rootDevice);
+    ParseDeviceNode(rootDeviceXml, locationUrl, applicationUrl, rootDevice);
     
     // Extract IP from location URL
     std::string ip;
@@ -59,7 +69,7 @@ void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
         std::vector<std::string> embeddedDeviceXmls = ExtractElements(deviceListXml, "device");
         for (const auto& edXml : embeddedDeviceXmls) {
             IdentityEvidence ed;
-            ParseDeviceNode(edXml, locationUrl, ed);
+            ParseDeviceNode(edXml, locationUrl, applicationUrl, ed);
             ed.ip = ip;
             ed.protocolEvidence.upnp->locationUrl = locationUrl; // Same location URL as parent
             ed.parentUuid = rootDevice.uuid; // Set the parent UUID
@@ -77,7 +87,7 @@ void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
     }
 }
 
-void XmlAnalyzer::ParseDeviceNode(const std::string& deviceXml, const std::string& locationUrl, IdentityEvidence& dev) const
+void XmlAnalyzer::ParseDeviceNode(const std::string& deviceXml, const std::string& locationUrl, const std::string& applicationUrl, IdentityEvidence& dev) const
 {
     std::string udn = ExtractElement(deviceXml, "UDN");
     dev.uuid = udn;
@@ -94,6 +104,7 @@ void XmlAnalyzer::ParseDeviceNode(const std::string& deviceXml, const std::strin
     UPnPEvidence upnpEv;
     upnpEv.rawXml = deviceXml;
     upnpEv.locationUrl = locationUrl;
+    upnpEv.applicationUrl = applicationUrl;
     upnpEv.services = ExtractServices(deviceXml, locationUrl);
     upnpEv.icons = ExtractIcons(deviceXml, locationUrl);
     upnpEv.deviceType = ExtractElement(deviceXml, "deviceType");

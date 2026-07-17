@@ -62,15 +62,7 @@ void UdpSocket::Open()
 {
     if (IsOpen()) return;  // Idempotent.
 
-    // --- Platform init ---
-    WSADATA wsaData{};
-    const int wsaResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (wsaResult != 0) {
-        throw std::runtime_error(
-            "UdpSocket::Open — WSAStartup failed: "
-            + Platform::WsaErrorString(wsaResult)
-        );
-    }
+    // --- Platform init (handled by NetworkStackGuard) ---
 
     // --- Create UDP socket ---
     // No bind() — the OS assigns an ephemeral source port.
@@ -78,7 +70,6 @@ void UdpSocket::Open()
     const SOCKET sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (sock == INVALID_SOCKET) {
         const int err = WSAGetLastError();
-        WSACleanup();
         throw std::runtime_error(
             "UdpSocket::Open — socket() failed: "
             + Platform::WsaErrorString(err)
@@ -100,7 +91,6 @@ void UdpSocket::Close() noexcept
     const SOCKET sock = static_cast<SOCKET>(m_handle);
     closesocket(sock);
     m_handle = static_cast<uintptr_t>(INVALID_SOCKET);
-    WSACleanup();
     std::cout << "[UdpSocket] Closed.\n";
 }
 

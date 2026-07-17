@@ -70,21 +70,12 @@ void MulticastSocket::Open(uint16_t port)
 {
     if (IsOpen()) return;
 
-    // --- Platform init ---
-    WSADATA wsaData{};
-    const int wsaResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (wsaResult != 0) {
-        throw std::runtime_error(
-            "MulticastSocket::Open — WSAStartup failed: "
-            + Platform::WsaErrorString(wsaResult)
-        );
-    }
+    // --- Platform init (handled by NetworkStackGuard) ---
 
     // --- Create socket ---
     const SOCKET sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (sock == INVALID_SOCKET) {
         const int err = WSAGetLastError();
-        WSACleanup();
         throw std::runtime_error(
             "MulticastSocket::Open — socket() failed: "
             + Platform::WsaErrorString(err)
@@ -99,7 +90,6 @@ void MulticastSocket::Open(uint16_t port)
                    reinterpret_cast<const char*>(&reuse), sizeof(reuse)) == SOCKET_ERROR) {
         const int err = WSAGetLastError();
         closesocket(sock);
-        WSACleanup();
         throw std::runtime_error(
             "MulticastSocket::Open — setsockopt(SO_REUSEADDR) failed: "
             + Platform::WsaErrorString(err)
@@ -115,7 +105,6 @@ void MulticastSocket::Open(uint16_t port)
     if (bind(sock, reinterpret_cast<const sockaddr*>(&bindAddr), sizeof(bindAddr)) == SOCKET_ERROR) {
         const int err = WSAGetLastError();
         closesocket(sock);
-        WSACleanup();
         throw std::runtime_error(
             "MulticastSocket::Open — bind() to port "
             + std::to_string(port) + " failed: "
@@ -141,7 +130,6 @@ void MulticastSocket::Close() noexcept
 
     closesocket(static_cast<SOCKET>(m_handle));
     m_handle = static_cast<uintptr_t>(INVALID_SOCKET);
-    WSACleanup();
     std::cout << "[MulticastSocket] Closed.\n";
 }
 
