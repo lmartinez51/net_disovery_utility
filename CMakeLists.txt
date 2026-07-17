@@ -66,6 +66,13 @@ set(NETDISCOVERY_SOURCES
     src/DeviceFusionEngine.cpp
     src/PresentationFormatter.cpp
     src/IdentityResolutionEngine.cpp
+    
+    # ── Phase 5: Command Execution Framework ──────────
+    src/DummyTransport.cpp
+    src/TransportRegistry.cpp
+    src/TransportSelector.cpp
+    src/ExecutionEngine.cpp
+    src/DeviceExecutor.cpp
 )
 
 set(NETDISCOVERY_HEADERS
@@ -85,6 +92,12 @@ set(NETDISCOVERY_HEADERS
     include/core/Provenance.h
     include/core/DeviceClass.h
     include/core/NormalizedService.h
+
+    # ── Phase 5 Models (core/) ────────────────────────
+    include/core/TransportFamily.h
+    include/core/ExecutionRequest.h
+    include/core/ExecutionResult.h
+    include/core/ExecutionRoute.h
 
     # ── Protocol interface & analyzers ────────────────
     include/IProtocolAnalyzer.h
@@ -109,6 +122,14 @@ set(NETDISCOVERY_HEADERS
     include/DeviceFusionEngine.h
     include/IdentityResolutionEngine.h
     include/PresentationFormatter.h
+
+    # ── Phase 5: Command Execution Framework ──────────
+    include/ICommunicationTransport.h
+    include/DummyTransport.h
+    include/TransportRegistry.h
+    include/TransportSelector.h
+    include/ExecutionEngine.h
+    include/DeviceExecutor.h
 
     # ── Transport layer ───────────────────────────────
     include/UdpSocket.h

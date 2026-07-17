@@ -86,6 +86,43 @@ public:
         }
         return false;
     }
+
+    std::optional<ExecutionRoute> GetExecutionRoute(
+        const LogicalDevice& device, 
+        const ActionDescriptor& action) const override {
+        
+        ExecutionRoute route;
+        route.transport = TransportFamily::SOAP;
+        
+        // Find the most appropriate endpoint based on action category
+        std::string targetService;
+        if (action.category == ActionCategory::MediaPlayback || action.category == ActionCategory::MediaTransport) {
+            targetService = "AVTransport";
+        } else if (action.category == ActionCategory::System || action.category == ActionCategory::Unknown) {
+            targetService = "RenderingControl"; // default for volume etc
+        } else {
+            targetService = "RenderingControl";
+        }
+
+        // Try to find the endpoint that provides this service
+        for (const auto& ep : device.endpoints) {
+            if (ep.evidence.upnp.has_value()) {
+                // Simplified matching for now - just returning the first UPnP endpoint
+                // A real implementation would parse the xml to find the specific control URL
+                route.preferredEndpoint = &ep;
+                break;
+            }
+        }
+
+        if (!route.preferredEndpoint && !device.endpoints.empty()) {
+            route.preferredEndpoint = &device.endpoints[0];
+        }
+
+        route.metadata["ServiceType"] = targetService;
+        route.metadata["SOAPACTION"] = action.id;
+
+        return route;
+    }
 };
 
 } // namespace NetDiscovery

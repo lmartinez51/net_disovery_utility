@@ -9,8 +9,10 @@
 #include "core/LogicalDevice.h"
 #include "core/ResolutionDiagnostics.h"
 #include "core/ActionDescriptor.h"
+#include "core/ExecutionRoute.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace NetDiscovery {
 
@@ -61,6 +63,13 @@ public:
      * @brief Vendor-specific actions that this controller uniquely adds beyond generic ones.
      */
     virtual std::vector<ActionDescriptor> VendorActions() const { return {}; }
+
+    /**
+     * @brief Provides the transport execution details for a specific action.
+     */
+    virtual std::optional<ExecutionRoute> GetExecutionRoute(
+        const LogicalDevice& device, 
+        const ActionDescriptor& action) const = 0;
 };
 
 } // namespace NetDiscovery

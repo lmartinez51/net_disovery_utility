@@ -154,6 +154,15 @@ The executable discovers devices, downloads their metadata, and pipes them throu
 
 ---
 
+## Troubleshooting
+
+### Zero Devices Discovered on Windows Wi-Fi
+If discovery unexpectedly returns 0 responses across all search targets (including `ssdp:all`) despite devices being online and the application compiling successfully, you may be hitting a known Windows Wi-Fi driver bug (WDI architecture, introduced in Windows 10) that silently drops multicast traffic after a Wi-Fi reconnect event (e.g., toggling airplane mode, roaming, waking from sleep).
+
+**Workaround**: Simply disconnect and reconnect your Wi-Fi adapter (or disable/re-enable the interface). Discovery will immediately start working again.
+
+---
+
 ## Architecture
 
 The public API in `include/` is **platform-neutral**. All platform-specific
@@ -175,12 +184,16 @@ The pipeline architecture (`DeviceFusionEngine`, `ControllerResolver`, `XmlAnaly
 
 | Phase | Feature | Status |
 |---|---|---|
-| **1-2** | SSDP Discovery & Parsing | ✅ Complete |
-| **3** | HTTP Client & UPnP/XML Parsing | ✅ Complete |
-| **4** | LogicalDevice & Identity Fusion | ✅ Complete |
-| **4.5**| Deterministic Intelligence Pipeline | ✅ Complete |
-| **5** | Execution Protocols (SOAP/DIAL/WS) | 🔲 Next |
-| **6** | Embedded ESP-Claw Porting | 🔲 Future |
+| **4** | Discovery | ✅ |
+| **4.5** | Intelligence Pipeline | ✅ |
+| **5** | Execution Framework | ✅ |
+| **5.5** | Device Knowledge Store | ⭐ |
+| **6** | DIAL Transport | ⭐ |
+| **7** | SOAP Transport | ⭐ |
+| **7.5** | Shared Execution Services<br>- Retry Policy<br>- Authentication Manager<br>- Execution Context<br>- Transport Capabilities | ⭐ |
+| **8** | Samsung Remote Transport | |
+| **9** | Semantic Execution Layer<br>- Application Resolver<br>- Vendor Parameter Mapping<br>- Action Normalization | |
+| **10** | Migration to esp32s3-camila<br>- ESP-Claw integration<br>- Lua bindings<br>- Tool Calling bridge<br>- NVS backend<br>- FreeRTOS services | |
 
 ---
 

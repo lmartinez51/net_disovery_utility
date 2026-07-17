@@ -38,6 +38,12 @@ public:
     bool ValidateEndpoints(const LogicalDevice& /*device*/) const override {
         return true;
     }
+
+    std::optional<ExecutionRoute> GetExecutionRoute(
+        const LogicalDevice& /*device*/, 
+        const ActionDescriptor& /*action*/) const override {
+        return std::nullopt;
+    }
 };
 
 } // namespace NetDiscovery

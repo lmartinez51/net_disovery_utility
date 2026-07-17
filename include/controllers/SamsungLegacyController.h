@@ -115,6 +115,39 @@ public:
             {"PowerOff", "Power Off", ActionCategory::Power, {}, false, ""}
         };
     }
+
+    std::optional<ExecutionRoute> GetExecutionRoute(
+        const LogicalDevice& device, 
+        const ActionDescriptor& action) const override {
+        
+        ExecutionRoute route;
+        
+        if (action.id == "PowerOn" || action.id == "PowerOff" || action.id == "SendKey(key)") {
+            route.transport = TransportFamily::SamsungRemote;
+            route.metadata["KeyCode"] = action.id; // Just as a hint
+            
+            for (const auto& ep : device.endpoints) {
+                if (ep.evidence.upnp.has_value() && ep.evidence.upnp->deviceType.find("RemoteControlReceiver") != std::string::npos) {
+                    route.preferredEndpoint = &ep;
+                    break;
+                }
+            }
+        } else {
+            route.transport = TransportFamily::SOAP;
+            for (const auto& ep : device.endpoints) {
+                if (ep.evidence.upnp.has_value() && ep.evidence.upnp->deviceType.find("MediaRenderer") != std::string::npos) {
+                    route.preferredEndpoint = &ep;
+                    break;
+                }
+            }
+        }
+
+        if (!route.preferredEndpoint && !device.endpoints.empty()) {
+            route.preferredEndpoint = &device.endpoints[0];
+        }
+
+        return route;
+    }
 };
 
 } // namespace NetDiscovery

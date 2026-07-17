@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file main.cpp
  * @brief NetDiscovery diagnostic utility -- main orchestrator.
  *
@@ -25,6 +25,9 @@
 #include "../include/ActionResolver.h"
 #include "../include/IdentityResolutionEngine.h"
 #include "../include/PresentationFormatter.h"
+#include "../include/TransportRegistry.h"
+#include "../include/DummyTransport.h"
+#include "../include/DeviceExecutor.h"
 #include "core/Packet.h"
 
 #include <algorithm>
@@ -283,6 +286,61 @@ int main(int argc, char* argv[])
 
     PresentationFormatter::PrintLogicalDevices(logicalDevices);
     PrintDiscoverySummary(allResults, logicalDevices, writer);
+
+    PrintHeader("PHASE 5: COMMAND EXECUTION DEMONSTRATION");
+    
+    // 1. Initialize execution framework
+    TransportRegistry transportRegistry;
+    transportRegistry.RegisterTransport(std::make_shared<DummyTransport>());
+    DeviceExecutor executor(transportRegistry, controllerRegistry);
+
+    // 2. Find a device with an actionable command to demonstrate execution
+    const LogicalDevice* targetDevice = nullptr;
+    ActionDescriptor actionToExecute;
+    bool isSimulated = false;
+
+    for (const auto& dev : logicalDevices) {
+        if (!dev.actions.empty()) {
+            targetDevice = &dev;
+            actionToExecute = dev.actions[0];
+            // Prefer VolumeUp if available
+            for (const auto& action : dev.actions) {
+                if (action.id == "VolumeUp") {
+                    actionToExecute = action;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    // Fallback: If no devices had actions, but we at least found a device, use it to mock an action
+    if (!targetDevice && !logicalDevices.empty()) {
+        targetDevice = &logicalDevices.front();
+        actionToExecute.id = "MockAction";
+        actionToExecute.displayName = "Mock Action";
+        isSimulated = true;
+    }
+
+    if (targetDevice) {
+        if (isSimulated) {
+            std::cout << "  [SIMULATED -- no real actionable device found on this run]\n";
+            std::cout << "  Injecting a synthetic action into the first discovered device to demonstrate the execution framework.\n\n";
+        }
+
+        // 3. Build and dispatch the request
+        ExecutionRequest req { *targetDevice, actionToExecute, {}, 5000, 0 };
+        ExecutionResult res = executor.Execute(req);
+        
+        std::cout << "  Execution Result: " << ToString(res.status) 
+                  << " -- Dummy transport executed in " << res.elapsedTimeMs << "ms.\n";
+        if (!res.diagnosticInfo.empty()) {
+            std::cout << "  Diagnostic Info : " << res.diagnosticInfo << "\n";
+        }
+        std::cout << "\n";
+    } else {
+        std::cout << "  No devices found to demonstrate execution.\n";
+    }
 
     return 0;
 }
