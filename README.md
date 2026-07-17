@@ -184,6 +184,9 @@ The pipeline architecture (`DeviceFusionEngine`, `ControllerResolver`, `XmlAnaly
 
 | Phase | Feature | Status |
 |---|---|---|
+| **1** | Core Networking (TCP/UDP/Multicast) | ✅ |
+| **2** | SSDP Protocol (M-SEARCH, Notifications) | ✅ |
+| **3** | HTTP Client & UPnP/XML Parsing | ✅ |
 | **4** | Discovery | ✅ |
 | **4.5** | Intelligence Pipeline | ✅ |
 | **5** | Execution Framework | ✅ |
