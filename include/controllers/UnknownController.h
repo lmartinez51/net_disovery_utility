@@ -40,8 +40,36 @@ public:
     }
 
     std::optional<ExecutionRoute> GetExecutionRoute(
-        const LogicalDevice& /*device*/, 
-        const ActionDescriptor& /*action*/) const override {
+        const LogicalDevice& device, 
+        const ActionDescriptor& action) const override {
+        
+        // TEMPORARY WIRING for Phase 8 -> 9 Demo 
+        // Force DIAL transport route for Application Launching
+        if (action.id == "LaunchApplication(name)") {
+            ExecutionRoute route;
+            route.transport = TransportFamily::DIAL;
+            
+            // Find a DIAL endpoint
+            for (const auto& ep : device.endpoints) {
+                if (ep.evidence.upnp.has_value()) {
+                    bool isDial = false;
+                    for (const auto& svc : ep.evidence.upnp->services) {
+                        if (svc.serviceType.find("dial-multiscreen") != std::string::npos) {
+                            isDial = true;
+                            break;
+                        }
+                    }
+                    if (isDial || ep.evidence.upnp->applicationUrl.length() > 0) {
+                        route.preferredEndpoint = &ep;
+                        if (!ep.evidence.upnp->applicationUrl.empty()) {
+                            route.metadata["Application-URL"] = ep.evidence.upnp->applicationUrl;
+                        }
+                        return route;
+                    }
+                }
+            }
+        }
+        
         return std::nullopt;
     }
 };

@@ -68,7 +68,8 @@ ExecutionResult DummyTransport::Execute(
     ExecutionResult result;
     result.status = ExecutionStatus::UnsupportedAction;
     result.elapsedTimeMs = elapsed;
-    result.diagnosticInfo = "Printed route info to console via DummyTransport.";
+    result.transportDiagnostics.rawPayload = "Printed route info to console via DummyTransport.";
+    result.status = ExecutionStatus::Success;
     
     return result;
 }

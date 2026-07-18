@@ -29,32 +29,36 @@ void IdentityResolutionEngine::ComputeIdentityConfidence(LogicalDevice& device) 
     device.confidenceBreakdown.clear();
     int confidenceScore = 0;
     
+    auto hasMeaningfulContent = [](const std::string& str) {
+        return !str.empty() && !std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); });
+    };
+    
     // Evaluate Manufacturer
-    if (!device.signature.manufacturer.empty()) {
+    if (hasMeaningfulContent(device.signature.manufacturer)) {
         confidenceScore += 30;
         device.confidenceBreakdown.push_back({"Manufacturer", 30});
     }
     
     // Evaluate Model
-    if (!device.signature.model.empty()) {
+    if (hasMeaningfulContent(device.signature.model)) {
         confidenceScore += 25;
         device.confidenceBreakdown.push_back({"Model", 25});
     }
     
     // Evaluate Serial
-    if (!device.signature.serialNumber.empty()) {
+    if (hasMeaningfulContent(device.signature.serialNumber)) {
         confidenceScore += 20;
         device.confidenceBreakdown.push_back({"Serial", 20});
     }
     
     // Evaluate FriendlyName
-    if (!device.signature.friendlyName.empty()) {
+    if (hasMeaningfulContent(device.signature.friendlyName)) {
         confidenceScore += 15;
         device.confidenceBreakdown.push_back({"FriendlyName", 15});
     }
     
     // Evaluate PresentationURL
-    if (!device.signature.presentationUrl.empty()) {
+    if (hasMeaningfulContent(device.signature.presentationUrl)) {
         confidenceScore += 10;
         device.confidenceBreakdown.push_back({"PresentationURL", 10});
     }

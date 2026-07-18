@@ -1,12 +1,12 @@
-# NetDiscovery
+# NetDiscovery (Device Intelligence & Execution Framework)
 
-A production-quality, portable C++17 network device discovery and intelligence library.
+This repository is a complete **Device Intelligence & Execution Framework** built in C++17. Its responsibilities are explicitly separated into five distinct stages:
 
-NetDiscovery discovers network devices — Samsung TVs, Sonos speakers,
-Philips Hue bridges, Chromecasts, Home Assistant — using standard discovery
-protocols (SSDP, UPnP, etc.). It features an advanced **Device Intelligence Pipeline**
-that automatically classifies devices, resolves physical identity, computes 
-capabilities, and dynamically maps execution controllers.
+**Discover &rarr; Understand &rarr; Decide &rarr; Execute &rarr; Maintain State**
+
+Discovery is only the first stage of a much larger execution architecture. The long-term goal is an execution framework capable of controlling heterogeneous devices regardless of manufacturer or protocol. Samsung is merely the first validation platform; the architecture must always remain strictly vendor-neutral.
+
+While it currently runs natively on Windows/Linux, it is designed as the foundation for the ESP32 `esp32s3-camila` project. The framework will eventually provide tool-calling capabilities for an LLM to autonomously control heterogeneous IoT environments.
 
 The Windows backend is the first implementation; the architecture is completely 
 decoupled and designed for future portability to **ESP-IDF** with minimal code changes.
@@ -15,15 +15,19 @@ decoupled and designed for future portability to **ESP-IDF** with minimal code c
 
 ## Current Phase
 
-**Phase 4.5 — Architecture Consolidation & Intelligence Pipeline**
+**Phase 9.1 — Vendor Transport Framework & Samsung Backend**
 
-The project has successfully moved beyond discovery into automated device intelligence:
+The project has successfully moved beyond discovery and foundational intelligence into execution:
 - Active and Passive SSDP Discovery
 - Concurrent HTTP fetching and UPnP XML Parsing
+- Heuristic Evidence-based Identity Resolution
 - Deterministic Device Classification and Normalization
-- Heuristic Evidence-based Identity Resolution (merging multi-protocol endpoints into single Logical Devices)
-- Automated Capability and Action resolving
-- Three-stage Controller Validation (IsMatch, Evaluate, ValidateEndpoints)
+- Device Knowledge Store and Persistence
+- Universal Execution Framework (Execution Engine, Transport Registry)
+- Shared Execution Services (Execution Context, Knowledge Synchronization)
+- Communication Transports (SOAP, DIAL)
+- Architectural Hardening & Validation Subsystem
+- Vendor-Specific Controllers (SamsungController)
 
 ---
 
@@ -36,7 +40,7 @@ NetDiscovery/
 │
 ├── include/                — Public API headers (platform-neutral)
 │   ├── core/               — Core models (LogicalDevice, ActionDescriptor, IdentityEvidence)
-│   ├── controllers/        — Protocol controllers (SamsungLegacy, GenericDLNA, Unknown)
+│   ├── controllers/        — Protocol controllers (Samsung, GenericDLNA, Unknown)
 │   ├── Device.h            — Raw UPnP/SSDP device models
 │   ├── SSDPClient.h        — Multicast UDP discovery client
 │   ├── HttpClient.h        — Non-blocking TCP HTTP client
@@ -143,7 +147,7 @@ The executable discovers devices, downloads their metadata, and pipes them throu
   - UPnP RemoteControlReceiver (192.168.1.13)
 
   Controller Candidates
-  > [PREFERRED] SamsungLegacyController (Confidence: 130)
+  > [PREFERRED] SamsungController (Confidence: 130)
       +100 Samsung Manufacturer (confirmed)
       +30 Samsung Namespace
   ✓ [ACCEPTED] UnknownController (Confidence: 1)
@@ -191,12 +195,68 @@ The pipeline architecture (`DeviceFusionEngine`, `ControllerResolver`, `XmlAnaly
 | **4.5** | Intelligence Pipeline | ✅ |
 | **5** | Execution Framework | ✅ |
 | **5.5** | Device Knowledge Store | ✅ |
-| **6** | DIAL Transport | ⭐ |
-| **7** | SOAP Transport | ⭐ |
-| **7.5** | Shared Execution Services<br>- Retry Policy<br>- Authentication Manager<br>- Execution Context<br>- Transport Capabilities | ⭐ |
-| **8** | Samsung Remote Transport | |
-| **9** | Semantic Execution Layer<br>- Application Resolver<br>- Vendor Parameter Mapping<br>- Action Normalization | |
-| **10** | Migration to esp32s3-camila<br>- ESP-Claw integration<br>- Lua bindings<br>- Tool Calling bridge<br>- NVS backend<br>- FreeRTOS services | |
+| **6** | DIAL Transport | ✅ |
+| **7** | SOAP Transport | ✅ |
+| **7.5** | **Shared Execution Services**<br>- Execution Context (✅ Built)<br>- Retry Policy (⏳ Deferred)<br>- Authentication Manager (⏳ Deferred)<br>- Transport Capabilities (⏳ Deferred) | ✅ |
+| **8** | **SOAP Response Parsing Framework**<br>- Service-Specific Parsers (`RenderingControlParser`, etc.)<br>- Parsers interpret protocol payloads into fields | ✅ |
+| **8.5** | **Architectural Hardening**<br>- Capability-driven validation subsystem<br>- Universal vocabulary refinement | ✅ |
+| **9** | **Vendor Transport Framework**<br>- `VendorTransport` base interface<br>- Transport Registry (decoupled backend registration) | ✅ |
+| **9.1** | **First Vendor Backend (Samsung)**<br>- `SamsungController` (IR, SOAP, DIAL, WebSocket strategies)<br>- Samsung Remote (WebSocket / Proprietary APIs) | ✅ |
+| **10** | **Semantic Execution Layer**<br>- Application Resolver<br>- Vendor Parameter Mapping<br>- Action Normalization<br>- Semantic Layer reasons over typed information | ⭐ |
+| **11** | **ESP32 Runtime Port**<br>- Migration to esp32s3-camila<br>- ESP-Claw integration<br>- Lua bindings<br>- Tool Calling bridge<br>- NVS backend<br>- FreeRTOS services | ⏳ |
+
+---
+
+## Target Architecture
+
+The Execution Engine remains completely agnostic to the specific manufacturer or protocol. It simply executes an `ExecutionRoute` provided by the Controller Resolver.
+
+The framework enforces a strict separation of concerns for execution:
+- **Controller**: Decides *HOW* an action should be executed based on the manufacturer/device.
+- **Strategy**: Decides *WHICH* execution mechanism should be used.
+- **Transport**: Performs the actual protocol communication.
+
+```text
+Semantic Action
+        │
+        ▼
+Execution Engine
+        │
+        ▼
+Controller Resolver
+        │
+        ├── SamsungController
+        │      ├── IR Strategy          -> IR Transport
+        │      ├── SOAP Strategy        -> SOAP Transport
+        │      ├── DIAL Strategy        -> DIAL Transport
+        │      └── WebSocket Strategy   -> WebSocket Transport
+        │
+        ├── RokuController
+        │      ├── ECP Strategy         -> ECP Transport
+        │      └── DIAL Strategy        -> DIAL Transport
+        │
+        ├── PhilipsHueController
+        │      └── REST Strategy        -> REST Transport
+        │
+        ├── ChromecastController
+        │      └── DIAL Strategy        -> DIAL Transport
+        │
+        └── GenericDLNAController
+               ├── SOAP Strategy        -> SOAP Transport
+               └── DIAL Strategy        -> DIAL Transport
+```
+
+---
+
+## Architecture Principles
+
+- **Controllers decide.**
+- **Strategies choose execution mechanisms.**
+- **Transports communicate.**
+- **Parsers interpret protocol payloads.**
+- **Semantic Layer reasons over typed information.**
+- **Execution Engine orchestrates.**
+- **Device Intelligence understands devices.**
 
 ---
 

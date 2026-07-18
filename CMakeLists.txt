@@ -71,15 +71,28 @@ set(NETDISCOVERY_SOURCES
     # ── Phase 5: Command Execution Framework ──────────
     src/DummyTransport.cpp
     src/transports/DIALTransport.cpp
+    src/transports/SOAPTransport.cpp
+    src/transports/soap/builders/RenderingControlBuilder.cpp
+    src/transports/soap/builders/AVTransportBuilder.cpp
+    src/transports/soap/builders/ConnectionManagerBuilder.cpp
     src/TransportRegistry.cpp
     src/TransportSelector.cpp
     src/ExecutionEngine.cpp
     src/DeviceExecutor.cpp
-
+    src/validation/ExecutionValidator.cpp
+    
     # ── Phase 5.5: Device Knowledge Store ─────────────
     src/persistence/FileKnowledgeStore.cpp
     src/services/KnowledgeStore.cpp
     src/services/KnowledgeSynchronizer.cpp
+
+    # ── Phase 8: Parsing Framework ────────────────────
+    third_party/tinyxml2/tinyxml2.cpp
+    src/parsing/soap/SOAPParserRegistry.cpp
+    src/parsing/soap/SOAPResponseDispatcher.cpp
+    src/parsing/soap/RenderingControlParser.cpp
+    src/parsing/soap/AVTransportParser.cpp
+    src/parsing/soap/ConnectionManagerParser.cpp
 )
 
 set(NETDISCOVERY_HEADERS
@@ -128,7 +141,7 @@ set(NETDISCOVERY_HEADERS
     include/CapabilityResolver.h
     include/ActionResolver.h
     include/controllers/GenericDLNAController.h
-    include/controllers/SamsungLegacyController.h
+    include/controllers/SamsungController.h
     include/controllers/UnknownController.h
 
     # ── Phase 4: Device Fusion Engine ─────────────────
@@ -140,6 +153,11 @@ set(NETDISCOVERY_HEADERS
     include/ICommunicationTransport.h
     include/DummyTransport.h
     include/transports/DIALTransport.h
+    include/transports/SOAPTransport.h
+    include/transports/soap/builders/RenderingControlBuilder.h
+    include/transports/soap/builders/AVTransportBuilder.h
+    include/upnp/models/RenderingControlRequests.h
+    include/upnp/models/AVTransportRequests.h
     include/TransportRegistry.h
     include/TransportSelector.h
     include/ExecutionEngine.h
@@ -171,6 +189,20 @@ set(NETDISCOVERY_HEADERS
     include/XmlAnalyzer.h
     include/DescriptionDownloader.h
     include/DeviceRegistry.h
+
+    # ── Third Party ───────────────────────────────────
+    third_party/tinyxml2/tinyxml2.h
+
+    # ── Phase 8: Parsing Framework ────────────────────
+    include/parsing/ParsedResponse.h
+    include/parsing/ParserDiagnostics.h
+    include/parsing/soap/ISOAPServiceParser.h
+    include/parsing/soap/SOAPParserRegistry.h
+    include/parsing/soap/SOAPResponseDispatcher.h
+    include/parsing/soap/RenderingControlParser.h
+    include/parsing/soap/AVTransportParser.h
+    include/parsing/soap/ConnectionManagerParser.h
+    include/transports/soap/SOAPServiceTypes.h
 )
 
 # ============================================================
@@ -189,6 +221,7 @@ target_include_directories(NetDiscovery
         ${CMAKE_CURRENT_SOURCE_DIR}/include       # Public headers
         ${CMAKE_CURRENT_SOURCE_DIR}/include/core  # Core layer (allows #include "Packet.h" style)
         ${CMAKE_CURRENT_SOURCE_DIR}/src           # Internal helpers (WinSock2Helpers.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/tinyxml2 # TinyXML2
 )
 
 # ============================================================

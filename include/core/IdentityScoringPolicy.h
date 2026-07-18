@@ -15,6 +15,7 @@ struct IdentityScoringPolicy {
     int sameRootUuidMatch{80};
     int sameUuidMatch{70};
     int sameLocationUrlMatch{70};   ///< Same UPnP LOCATION URL = same physical device
+    int sameBaseUrlMatch{70};       ///< Same UPnP Base URL (Host:Port) = same physical device
     int samePresentationUrlMatch{60};
     int sameFriendlyNameMatch{50};
     int sameManufacturerMatch{30};

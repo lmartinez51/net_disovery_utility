@@ -5,13 +5,13 @@
 
 #include "../include/ControllerRegistry.h"
 #include "../include/controllers/GenericDLNAController.h"
-#include "../include/controllers/SamsungLegacyController.h"
+#include "../include/controllers/SamsungController.h"
 #include "../include/controllers/UnknownController.h"
 
 namespace NetDiscovery {
 
 ControllerRegistry::ControllerRegistry() {
-    m_controllers.push_back(std::make_unique<SamsungLegacyController>());
+    m_controllers.push_back(std::make_unique<SamsungController>());
     m_controllers.push_back(std::make_unique<GenericDLNAController>());
     m_controllers.push_back(std::make_unique<UnknownController>());
 }

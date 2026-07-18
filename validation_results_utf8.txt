@@ -1,0 +1,773 @@
+﻿[Network] WSAStartup (NetworkStackGuard initialized)
+[Dispatcher] Registered analyzer: SSDP
+[Dispatcher] Registered analyzer: UPnP_XML
+======================================================================
+  NetDiscovery -- Active M-SEARCH Discovery
+======================================================================
+  Targets     : 6
+  MX          : 3s
+  Timeout     : 5s
+  Capture dir : "C:\\Users\\leolm\\Desktop\\Proyectos_AI\\ESP32_Projects\\net_discovery_utility\\captures"
+
+======================================================================
+  PHASE 5.5: KNOWLEDGE LAYER RESTORATION
+======================================================================
+[Metadata] KnowledgeStore deserialized Application-URL: http://192.168.1.13:8080/ws/app/
+  Restored 2 entities from network: net_ssid_LocalNetwork
+  [Placeholder] Knowledge Ranking executed.
+  [Placeholder] Passive Validation executed.
+  [Placeholder] Conditional Discovery triggered (Active discovery forced for backward compatibility).
+
+[UdpSocket] Opened (descriptor=232).
+======================================================================
+  ST: ssdp:all  -- 18 response(s)
+======================================================================
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:53606
+  Type     : HTTP Response
+  UUID     : uuid:20809696-105a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:53606
+  Type     : HTTP Response
+  UUID     : uuid:20809696-105a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:54060
+  Type     : HTTP Response
+  UUID     : uuid:20809696-105a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:50208
+  Type     : HTTP Response
+  UUID     : uuid:20809696-205a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:50208
+  Type     : HTTP Response
+  UUID     : uuid:20809696-205a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.916
+  From     : 192.168.1.1:39976
+  Type     : HTTP Response
+  UUID     : uuid:20809696-205a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.916
+  From     : 192.168.1.1:46949
+  Type     : HTTP Response
+  UUID     : uuid:20809696-305a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.916
+  From     : 192.168.1.1:46949
+  Type     : HTTP Response
+  UUID     : uuid:20809696-305a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.916
+  From     : 192.168.1.1:32812
+  Type     : HTTP Response
+  UUID     : uuid:20809696-305a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.916
+  From     : 192.168.1.1:45079
+  Type     : HTTP Response
+  UUID     : uuid:20809696-305a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.969
+  From     : 192.168.1.13:51361
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.969
+  From     : 192.168.1.13:59291
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.972
+  From     : 192.168.1.13:36357
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.973
+  From     : 192.168.1.13:58516
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.973
+  From     : 192.168.1.13:58797
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.974
+  From     : 192.168.1.13:35995
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.975
+  From     : 192.168.1.13:33103
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.977
+  From     : 192.168.1.13:55049
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+======================================================================
+  ST: upnp:rootdevice  -- 8 response(s)
+======================================================================
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.915
+  From     : 192.168.1.1:53606
+  Type     : HTTP Response
+  UUID     : uuid:20809696-105a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.917
+  From     : 192.168.1.1:36670
+  Type     : HTTP Response
+  UUID     : uuid:20809696-105a-3721-e8b8-98006ae1ddca
+  Location : http://192.168.1.1:52869/gatedesc.xml
+  Server   : Linux, UPnP/1.0, Portable SDK for UPnP devices/1.6.22
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.968
+  From     : 192.168.1.13:52561
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.971
+  From     : 192.168.1.13:48825
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.975
+  From     : 192.168.1.13:56401
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.998
+  From     : 192.168.1.13:55185
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.999
+  From     : 192.168.1.13:33822
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.999
+  From     : 192.168.1.13:47653
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+======================================================================
+  ST: urn:schemas-upnp-org:device:MediaRenderer:1  -- 2 response(s)
+======================================================================
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.972
+  From     : 192.168.1.13:48919
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:10.021
+  From     : 192.168.1.13:38105
+  Type     : HTTP Response
+  UUID     : uuid:0a21fe81-00aa-1000-a87f-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_11_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+======================================================================
+  ST: urn:schemas-upnp-org:device:MediaServer:1  -- 0 response(s)
+======================================================================
+  (no responses)
+======================================================================
+  ST: urn:dial-multiscreen-org:service:dial:1  -- 2 response(s)
+======================================================================
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.970
+  From     : 192.168.1.13:42874
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:10.064
+  From     : 192.168.1.13:47827
+  Type     : HTTP Response
+  UUID     : uuid:08f0d181-0096-1000-82d5-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_21_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+======================================================================
+  ST: urn:samsung.com:device:RemoteControlReceiver:1  -- 2 response(s)
+======================================================================
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:09.977
+  From     : 192.168.1.13:48527
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+----------------------------------------------------------------------
+  Time     : 2026-07-17 16:54:11.077
+  From     : 192.168.1.13:48229
+  Type     : HTTP Response
+  UUID     : uuid:08f0d180-0096-1000-bf66-fcf1368344e8
+  Location : http://192.168.1.13:7676/smp_3_
+  Server   : SHP, UPnP/1.0, Samsung UPnP SDK/1.0
+
+  Total discovery time: 6.2s
+
+======================================================================
+  DOWNLOADING DEVICE DESCRIPTIONS
+======================================================================
+[Metadata] DescriptionDownloader found no Application-URL header
+[Metadata] XmlAnalyzer found no Application-URL in packet metadata
+[Metadata] DescriptionDownloader found no Application-URL header
+[Metadata] XmlAnalyzer found no Application-URL in packet metadata
+[Metadata] DescriptionDownloader found no Application-URL header
+[Metadata] XmlAnalyzer found no Application-URL in packet metadata
+[Metadata] DescriptionDownloader extracted Application-URL: http://192.168.1.13:8080/ws/app/
+[Metadata] XmlAnalyzer transferred Application-URL to UPnPEvidence: http://192.168.1.13:8080/ws/app/
+[Metadata] DescriptionDownloader found no Application-URL header
+[Metadata] XmlAnalyzer found no Application-URL in packet metadata
+[Metadata] DescriptionDownloader extracted Application-URL: http://192.168.1.13:8080/ws/app/
+[Metadata] XmlAnalyzer transferred Application-URL to UPnPEvidence: http://192.168.1.13:8080/ws/app/
+  Finished fetching descriptions.
+
+[UdpSocket] Closed.
+======================================================================
+  IDENTITY RESOLUTION ENGINE
+======================================================================
+[DEBUG] IdentityResolutionEngine
+  Logical Devices: 2
+  - [TV] Samsung
+    Endpoints: 3
+  - UPNP IGD
+    Endpoints: 3
+======================================================================
+  DEVICE INTELLIGENCE PIPELINE
+======================================================================
+
+[DEBUG] Pipeline for [TV] Samsung
+  [ProtocolNormalizer] Normalized Services: 8
+    - urn:samsung.com:RemoteControlReceiver v1
+    - urn:samsung.com:MultiScreenService v1
+    - urn:dial-multiscreen-org:dial v1
+    - urn:dial-multiscreen-org:dialreceiver v1
+    - upnp:MediaRenderer v1
+    - upnp:RenderingControl v1
+    - upnp:ConnectionManager v1
+    - upnp:AVTransport v1
+  [DeviceClassifier] Primary Class: 1
+  [DeviceClassifier] Roles: 3
+  [CapabilityResolver] Capabilities: 8
+  [ControllerResolver] Controller Candidates: 3
+    - SamsungLegacyController (Rejected: 0, Score: 112, Reason: Samsung manufacturer or specific services matched.)
+    - GenericDLNAController (Rejected: 0, Score: 100, Reason: Generic DLNA services detected.)
+    - UnknownController (Rejected: 0, Score: 1, Reason: Fallback controller.)
+  [ActionResolver] Actions: 16
+
+[DEBUG] Pipeline for UPNP IGD
+  [ProtocolNormalizer] Normalized Services: 4
+    - urn:schemas-microsoft-com:OSInfo v1
+    - upnp:InternetGatewayDevice v1
+    - upnp:WANCommonInterfaceConfig v1
+    - upnp:WANIPv6FirewallControl v1
+  [DeviceClassifier] Primary Class: 0
+  [DeviceClassifier] Roles: 1
+  [CapabilityResolver] Capabilities: 0
+  [ControllerResolver] Controller Candidates: 3
+    - UnknownController (Rejected: 0, Score: 1, Reason: Fallback controller.)
+    - SamsungLegacyController (Rejected: 1, Score: 0, Reason: Failed IsMatch (Mandatory Requirements))
+    - GenericDLNAController (Rejected: 1, Score: 0, Reason: Failed IsMatch (Mandatory Requirements))
+  [ActionResolver] Actions: 0
+  Finished intelligence pipeline.
+
+======================================================================
+  DEVICE INTELLIGENCE ENGINE — Logical Devices (2)
+======================================================================
+
+  [TV] Samsung
+
+  Identity Confidence: 90%
+    +30 Manufacturer
+    +25 Model
+    +20 Serial
+    +15 FriendlyName
+
+  Device Signature Evidence
+  - Manufacturer : Samsung Electronics
+  - Model        : UN40J5200
+  - FriendlyName : [TV] Samsung
+  - Serial       : 20090804RCR
+  - Primary Class: Smart TV
+  - Roles        : Remote Control Target, DIAL Receiver, Media Renderer Role
+
+  Capabilities
+  ✓ Remote Control
+  ✓ Application Launching
+  ✓ Volume Control
+  ✓ Mute
+  ✓ Input Selection
+  ✓ Media Playback
+  ✓ Media Transport
+  ✓ Power Control
+
+  Supported Actions
+  ✓ SendKey(key)
+  ✓ LaunchApplication(name)
+  ✓ VolumeUp
+  ✓ VolumeDown
+  ✓ SetVolume(level)
+  ✓ Mute
+  ✓ Unmute
+  ✓ SelectInput(input)
+  ✓ Play
+  ✓ Pause
+  ✓ Stop
+  ✓ Next
+  ✓ Previous
+  ✓ Seek
+  ✓ PowerOn
+  ✓ PowerOff
+
+  Protocol Endpoints
+  - SSDP Discovery (192.168.1.13)
+  - UPnP RemoteControlReceiver (192.168.1.13)
+  - UPnP dialreceiver (192.168.1.13)
+  - UPnP MediaRenderer (192.168.1.13)
+
+  Exposed Services (5)
+  - urn:samsung.com:device:RemoteControlReceiver:1
+  - urn:samsung.com:service:MultiScreenService:1
+      Control: http://192.168.1.13:7676/smp_5_
+  - urn:schemas-upnp-org:service:RenderingControl:1
+      Control: http://192.168.1.13:7676/smp_13_
+  - urn:schemas-upnp-org:service:ConnectionManager:1
+      Control: http://192.168.1.13:7676/smp_16_
+  - urn:schemas-upnp-org:service:AVTransport:1
+      Control: http://192.168.1.13:7676/smp_19_
+
+  Controller Candidates
+  > [PREFERRED] SamsungLegacyController (Confidence: 112)
+      +100 Samsung Manufacturer (confirmed)
+      +2 DIAL Service
+      +5 RenderingControl
+      +5 AVTransport
+  ✓ [ACCEPTED] GenericDLNAController (Confidence: 100)
+      +20 UPnP Namespace
+      +40 MediaRenderer
+      +10 RenderingControl
+      +30 AVTransport
+  ✓ [ACCEPTED] UnknownController (Confidence: 1)
+      +1 Fallback matching
+
+----------------------------------------------------------------------
+
+  UPNP IGD
+
+  Identity Confidence: 90%
+    +30 Manufacturer
+    +25 Model
+    +20 Serial
+    +15 FriendlyName
+
+  Device Signature Evidence
+  - Manufacturer : ZTE
+  - Model        : F689
+  - FriendlyName : UPNP IGD
+  - Serial       : ZNTSFFFA24F7
+  - Primary Class: Internet Gateway
+  - Roles        : Network Router
+
+  Capabilities
+  (None)
+
+  Supported Actions
+  (None)
+
+  Protocol Endpoints
+  - SSDP Discovery (192.168.1.1)
+  - UPnP InternetGatewayDevice (192.168.1.1)
+
+  Exposed Services (2)
+  - urn:schemas-microsoft-com:service:OSInfo:1
+      Control: http://192.168.1.1:52869/upnp/control/OSInfo1
+  - urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1
+
+  Controller Candidates
+  > [PREFERRED] UnknownController (Confidence: 1)
+      +1 Fallback matching
+  ✗ [REJECTED] SamsungLegacyController
+      Reason: Failed IsMatch (Mandatory Requirements)
+  ✗ [REJECTED] GenericDLNAController
+      Reason: Failed IsMatch (Mandatory Requirements)
+
+----------------------------------------------------------------------
+
+======================================================================
+  DISCOVERY SUMMARY
+======================================================================
+  Search targets   : 6
+  Total responses  : 32
+  Logical devices  : 2
+  Files written    : 32
+  Capture dir      : "C:\\Users\\leolm\\Desktop\\Proyectos_AI\\ESP32_Projects\\net_discovery_utility\\captures"
+
+  Per-target breakdown:
+    ssdp:all                                              18 response(s)
+    upnp:rootdevice                                       8 response(s)
+    urn:schemas-upnp-org:device:MediaRenderer:1           2 response(s)
+    urn:schemas-upnp-org:device:MediaServer:1             0 response(s)
+    urn:dial-multiscreen-org:service:dial:1               2 response(s)
+    urn:samsung.com:device:RemoteControlReceiver:1        2 response(s)
+
+======================================================================
+  KNOWLEDGE MERGE
+======================================================================
+[Metadata] KnowledgeStore serializing Application-URL: http://192.168.1.13:8080/ws/app/
+  Merged 2 devices into Knowledge Store (2 total entities known).
+
+======================================================================
+  PHASE 8A.1: SOAP CONFORMANCE VALIDATION DEMO
+======================================================================
+  [DEBUG] Searching for a device with RenderingControl or AVTransport...
+  [DEMO] Found SOAP-capable device: [TV] Samsung
+
+  --- Executing GetProtocolInfo ---
+  [ExecutionEngine] Controller 'GenericDLNAController' returned a route.
+  [ExecutionEngine]   -> TransportFamily: SOAP
+  [ExecutionEngine]   -> Metadata keys: 0
+  [ExecutionEngine]   -> Preferred Endpoint IP: 192.168.1.13
+  [ExecutionEngine]      - UPnP Location: http://192.168.1.13:7676/smp_3_
+
+================ SOAP REQUEST ================
+Endpoint:
+http://192.168.1.13:7676/smp_16_
+
+SOAPAction:
+"urn:schemas-upnp-org:service:ConnectionManager:1#GetProtocolInfo"
+
+Headers:
+Content-Type: text/xml; charset="utf-8"
+SOAPAction: "urn:schemas-upnp-org:service:ConnectionManager:1#GetProtocolInfo"
+
+Body:
+
+<?xml version="1.0"?>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+  <s:Body>
+
+    <u:GetProtocolInfo xmlns:u="urn:schemas-upnp-org:service:ConnectionManager:1">
+
+    </u:GetProtocolInfo>
+
+  </s:Body>
+
+</s:Envelope>
+
+
+==============================================
+
+[SOAPTransport] Executing SOAP Request:
+  Endpoint    : http://192.168.1.13:7676/smp_16_
+  SOAPAction  : "urn:schemas-upnp-org:service:ConnectionManager:1#GetProtocolInfo"
+[SOAPTransport] HTTP POST returned status code: 200
+  Execution Result: Success -- executed in 1041ms.
+  Diagnostic Info : <?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+<s:Body>
+
+<u:GetProtocolInfoResponse xmlns:u="urn:schemas-upnp-org:service:ConnectionManager:1"><Source></Source><Sink>http-get:*:audio/L16:DLNA.ORG_PN=LPCM;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_SM,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_MED,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_LRG,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_TN,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_SM_ICO,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_LRG_ICO,http-get:*:image/png:DLNA.ORG_PN=PNG_TN,http-get:*:image/png:DLNA.ORG_PN=PNG_SM_ICO,http-get:*:image/png:DLNA.ORG_PN=PNG_LRG_ICO,http-get:*:image/png:DLNA.ORG_PN=PNG_LRG,http-get:*:audio/vnd.dolby.dd-raw:DLNA.ORG_PN=AC3;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AMR_3GPP;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/3gpp:DLNA.ORG_PN=AMR_WBplus;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/x-sony-oma:DLNA.ORG_PN=ATRAC3plus;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mpeg:DLNA.ORG_PN=MP3X;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_ADTS;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_ADTS_320;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_ISO_320;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_LTP_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_LTP_MULT5_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_LTP_MULT7_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_MULT5_ADTS;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_MULT5_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=HEAAC_L2_ADTS;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L2_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=HEAAC_L3_ADTS;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L3_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_MULT5_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=HEAAC_L2_ADTS_320;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L2_ISO_320;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=BSAC_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/mp4:DLNA.ORG_PN=BSAC_MULT5_ISO;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMABASE;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMAFULL;DLNA.ORG_FLAGS=8D100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG1;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_PAL;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_PAL_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_NA_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_NA_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_NA_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_EU;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_EU_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_EU_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_KO_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_KO_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_ES_PAL;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_ES_NTSC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_ES_PAL_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_ES_NTSC_XAC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_ATRAC3plus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_L2_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_L2_AMR;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_AAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_SP_G726;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_VGA_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_VGA_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_HEAAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_ATRAC3plus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_MPEG1_L3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_ASP_MPEG1_L3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_ASP_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L5_SO_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L5_SO_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L5_SO_HEAAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_ASP_L5_SO_G726;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L4_SO_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L4_SO_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_L4_SO_HEAAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_ASP_L4_SO_G726;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_H263_MP4_P0_L10_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_H263_3GPP_P0_L10_AMR_WBplus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_CO_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_CO_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_CO_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_CO_MPEG2_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_CO_MPEG2_L2_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_CO_MPEG2_L2_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_P2_3GPP_SP_L0B_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_P2_3GPP_SP_L0B_AMR;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_H263_3GPP_P3_L10_AMR;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_HEAAC_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_HEAAC_L2_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_HEAAC_L2_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT7;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT7_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_LTP_MULT7_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_BSAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_BSAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_BSAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_HEAAC_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_LTP_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_LTP_MULT7;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_ATRAC3plus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3L_SD_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3L_SD_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3_SD_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_BSAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_HEAAC_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_HEAAC_L2_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_HEAAC_L2_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_LTP_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_HEAAC_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_LTP_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L2_CIF30_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_BSAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_BSAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_940;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AMR;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_HEAAC_L2;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_HEAAC_L2_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_HEAAC_L2_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AC3_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT5;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT5_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT5_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT7;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT7_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_LTP_MULT7_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_LTP_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_LTP_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_BSAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_BSAC_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_BSAC_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_HD_60_AC3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC_520;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC_LTP_520;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_BSAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L12_CIF15_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L1B_QCIF15_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_CIF30_AMR_WBplus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_CIF15_AMR_WBplus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_AAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_AAC_LTP;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_HEAAC;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_AMR_WBplus;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_AMR;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_BASE;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_FULL;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_PRO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVHIGH_FULL;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVHM_BASE;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPLL_BASE;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPML_BASE;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPML_MP3;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_HD_60_AC3_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_NA_ISO;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_NA_T;DLNA.ORG_FLAGS=ED100000000000000000000000000000,http-get:*:text/xml:SEC.COM_DIDLSIMAGE=1;SEC.COM_DIDLSAUDIO=1;SEC.COM_DIDLSVIDEO=1,http-get:*:image/jpeg:*,http-get:*:image/png:*,http-get:*:image/bmp:*,http-get:*:image/mpo:*,http-get:*:audio/mpeg:*,http-get:*:audio/x-ms-wma:*,http-get:*:audio/mp4:*,http-get:*:audio/x-m4a:*,http-get:*:audio/3ga:*,http-get:*:audio/ogg:*,http-get:*:audio/x-wav:*,http-get:*:audio/x-flac:*,http-get:*:smi/caption:*,http-get:*:video/x-msvideo:*,http-get:*:video/x-ms-asf:*,http-get:*:video/x-divx:*,http-get:*:video/x-ms-wmv:*,http-get:*:video/x-mkv:*,http-get:*:video/mp4:*,http-get:*:video/x-avi:*,http-get:*:video/avi:*,http-get:*:video/x-flv:*,http-get:*:video/mpeg:*,http-get:*:video/3gpp:*,http-get:*:video/webm:*</Sink></u:GetProtocolInfoResponse>
+
+</s:Body>
+
+</s:Envelope>
+
+  --- Executing GetVolume ---
+  [ExecutionEngine] Controller 'GenericDLNAController' returned a route.
+  [ExecutionEngine]   -> TransportFamily: SOAP
+  [ExecutionEngine]   -> Metadata keys: 0
+  [ExecutionEngine]   -> Preferred Endpoint IP: 192.168.1.13
+  [ExecutionEngine]      - UPnP Location: http://192.168.1.13:7676/smp_3_
+
+================ SOAP REQUEST ================
+Endpoint:
+http://192.168.1.13:7676/smp_13_
+
+SOAPAction:
+"urn:schemas-upnp-org:service:RenderingControl:1#GetVolume"
+
+Headers:
+Content-Type: text/xml; charset="utf-8"
+SOAPAction: "urn:schemas-upnp-org:service:RenderingControl:1#GetVolume"
+Connection: close
+User-Agent: NetDiscovery/1.0
+
+Body:
+
+<?xml version="1.0"?>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+  <s:Body>
+
+    <u:GetVolume xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1">
+
+      <InstanceID>0</InstanceID>
+
+      <Channel>Master</Channel>
+
+    </u:GetVolume>
+
+  </s:Body>
+
+</s:Envelope>
+
+
+==============================================
+
+[SOAPTransport] Executing SOAP Request:
+  Endpoint    : http://192.168.1.13:7676/smp_13_
+  SOAPAction  : "urn:schemas-upnp-org:service:RenderingControl:1#GetVolume"
+[SOAPTransport] HTTP POST returned status code: 200
+  Execution Result: Success -- executed in 1105ms.
+  Diagnostic Info : <?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+<s:Body>
+
+<u:GetVolumeResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"><CurrentVolume>10</CurrentVolume></u:GetVolumeResponse>
+
+</s:Body>
+
+</s:Envelope>
+
+  --- Executing GetMute ---
+  [ExecutionEngine] Controller 'GenericDLNAController' returned a route.
+  [ExecutionEngine]   -> TransportFamily: SOAP
+  [ExecutionEngine]   -> Metadata keys: 0
+  [ExecutionEngine]   -> Preferred Endpoint IP: 192.168.1.13
+  [ExecutionEngine]      - UPnP Location: http://192.168.1.13:7676/smp_3_
+
+================ SOAP REQUEST ================
+Endpoint:
+http://192.168.1.13:7676/smp_13_
+
+SOAPAction:
+"urn:schemas-upnp-org:service:RenderingControl:1#GetMute"
+
+Headers:
+Content-Type: text/xml; charset="utf-8"
+SOAPAction: "urn:schemas-upnp-org:service:RenderingControl:1#GetMute"
+Connection: close
+User-Agent: NetDiscovery/1.0
+
+Body:
+
+<?xml version="1.0"?>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+  <s:Body>
+
+    <u:GetMute xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1">
+
+      <InstanceID>0</InstanceID>
+
+      <Channel>Master</Channel>
+
+    </u:GetMute>
+
+  </s:Body>
+
+</s:Envelope>
+
+
+==============================================
+
+[SOAPTransport] Executing SOAP Request:
+  Endpoint    : http://192.168.1.13:7676/smp_13_
+  SOAPAction  : "urn:schemas-upnp-org:service:RenderingControl:1#GetMute"
+[SOAPTransport] HTTP POST returned status code: 200
+  Execution Result: Success -- executed in 103ms.
+  Diagnostic Info : <?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+<s:Body>
+
+<u:GetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"><CurrentMute>0</CurrentMute></u:GetMuteResponse>
+
+</s:Body>
+
+</s:Envelope>
+
+  --- Executing SetVolume ---
+  [ExecutionEngine] Controller 'GenericDLNAController' returned a route.
+  [ExecutionEngine]   -> TransportFamily: SOAP
+  [ExecutionEngine]   -> Metadata keys: 0
+  [ExecutionEngine]   -> Preferred Endpoint IP: 192.168.1.13
+  [ExecutionEngine]      - UPnP Location: http://192.168.1.13:7676/smp_3_
+
+================ SOAP REQUEST ================
+Endpoint:
+http://192.168.1.13:7676/smp_13_
+
+SOAPAction:
+"urn:schemas-upnp-org:service:RenderingControl:1#SetVolume"
+
+Headers:
+Content-Type: text/xml; charset="utf-8"
+SOAPAction: "urn:schemas-upnp-org:service:RenderingControl:1#SetVolume"
+Connection: close
+User-Agent: NetDiscovery/1.0
+
+Body:
+
+<?xml version="1.0"?>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+  <s:Body>
+
+    <u:SetVolume xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1">
+
+      <InstanceID>0</InstanceID>
+
+      <Channel>Master</Channel>
+
+      <DesiredVolume>15</DesiredVolume>
+
+    </u:SetVolume>
+
+  </s:Body>
+
+</s:Envelope>
+
+
+==============================================
+
+[SOAPTransport] Executing SOAP Request:
+  Endpoint    : http://192.168.1.13:7676/smp_13_
+  SOAPAction  : "urn:schemas-upnp-org:service:RenderingControl:1#SetVolume"
+[SOAPTransport] HTTP POST returned status code: 500
+  Execution Result: ExecutionFailed -- executed in 1023ms.
+  Diagnostic Info : <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+<s:Body>
+
+<s:Fault><faultcode>s:Client</faultcode><faultstring>UPnPError</faultstring><detail><UPnPError xmlns="urn:schemas-upnp-org:control-1-0"><errorCode>501</errorCode><errorDescription>Action Failed</errorDescription></UPnPError></detail></s:Fault>
+
+</s:Body>
+
+</s:Envelope>
+
+  --- Executing SetMute ---
+  [ExecutionEngine] Controller 'GenericDLNAController' returned a route.
+  [ExecutionEngine]   -> TransportFamily: SOAP
+  [ExecutionEngine]   -> Metadata keys: 0
+  [ExecutionEngine]   -> Preferred Endpoint IP: 192.168.1.13
+  [ExecutionEngine]      - UPnP Location: http://192.168.1.13:7676/smp_3_
+
+================ SOAP REQUEST ================
+Endpoint:
+http://192.168.1.13:7676/smp_13_
+
+SOAPAction:
+"urn:schemas-upnp-org:service:RenderingControl:1#SetMute"
+
+Headers:
+Content-Type: text/xml; charset="utf-8"
+SOAPAction: "urn:schemas-upnp-org:service:RenderingControl:1#SetMute"
+Connection: close
+User-Agent: NetDiscovery/1.0
+
+Body:
+
+<?xml version="1.0"?>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+  <s:Body>
+
+    <u:SetMute xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1">
+
+      <InstanceID>0</InstanceID>
+
+      <Channel>Master</Channel>
+
+      <DesiredMute>1</DesiredMute>
+
+    </u:SetMute>
+
+  </s:Body>
+
+</s:Envelope>
+
+
+==============================================
+
+[SOAPTransport] Executing SOAP Request:
+  Endpoint    : http://192.168.1.13:7676/smp_13_
+  SOAPAction  : "urn:schemas-upnp-org:service:RenderingControl:1#SetMute"
+[SOAPTransport] HTTP POST returned status code: 500
+  Execution Result: ExecutionFailed -- executed in 108ms.
+  Diagnostic Info : <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+
+<s:Body>
+
+<s:Fault><faultcode>s:Client</faultcode><faultstring>UPnPError</faultstring><detail><UPnPError xmlns="urn:schemas-upnp-org:control-1-0"><errorCode>501</errorCode><errorDescription>Action Failed</errorDescription></UPnPError></detail></s:Fault>
+
+</s:Body>
+
+</s:Envelope>
+
+[Network] WSACleanup (NetworkStackGuard destroyed)

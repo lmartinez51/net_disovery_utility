@@ -3,6 +3,8 @@
 #include <sstream>
 #include <chrono>
 
+extern bool g_verbose;
+
 namespace NetDiscovery {
 
 KnowledgeStore::KnowledgeStore(std::unique_ptr<IKnowledgeStore> backend)
@@ -233,7 +235,7 @@ std::string KnowledgeStore::SerializeEntity(const KnowledgeEntity& entity) const
     for (const auto& ep : entity.endpoints) {
         oss << "ENDPOINT=" << ep.ip << "|" << ep.serverHeader << "|" << ep.uuid;
         if (ep.evidence.upnp.has_value()) {
-            if (!ep.evidence.upnp->applicationUrl.empty()) {
+            if (g_verbose && !ep.evidence.upnp->applicationUrl.empty()) {
                 std::cout << "[Metadata] KnowledgeStore serializing Application-URL: " << ep.evidence.upnp->applicationUrl << "\n";
             }
             oss << "|" << ep.evidence.upnp->locationUrl << "|" << ep.evidence.upnp->applicationUrl;
@@ -295,7 +297,7 @@ KnowledgeEntity KnowledgeStore::DeserializeEntity(const std::string& data) const
                         UPnPEvidence upnp;
                         upnp.locationUrl = parts[3];
                         upnp.applicationUrl = parts[4];
-                        if (!upnp.applicationUrl.empty()) {
+                        if (g_verbose && !upnp.applicationUrl.empty()) {
                             std::cout << "[Metadata] KnowledgeStore deserialized Application-URL: " << upnp.applicationUrl << "\n";
                         }
                         ep.evidence.upnp = std::move(upnp);

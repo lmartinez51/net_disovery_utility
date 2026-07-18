@@ -1,5 +1,5 @@
 /**
- * @file SamsungLegacyController.h
+ * @file SamsungController.h
  * @brief Controller for older Samsung Smart TVs.
  */
 
@@ -10,10 +10,10 @@
 
 namespace NetDiscovery {
 
-class SamsungLegacyController : public IDeviceController {
+class SamsungController : public IDeviceController {
 public:
     std::string ControllerName() const override {
-        return "SamsungLegacyController";
+        return "SamsungController";
     }
 
     std::vector<std::string> SupportedManufacturers() const override {
@@ -120,37 +120,29 @@ public:
         const LogicalDevice& device, 
         const ActionDescriptor& action) const override {
         
-        ExecutionRoute route;
-        
+        // 1. Explicit Allowlist of actions this controller natively implements
         if (action.id == "PowerOn" || action.id == "PowerOff" || action.id == "SendKey(key)") {
+            ExecutionRoute route;
             route.transport = TransportFamily::SamsungRemote;
-            route.metadata["KeyCode"] = action.id; // Just as a hint
+            route.metadata["KeyCode"] = action.id; 
             
             for (const auto& ep : device.endpoints) {
                 if (ep.evidence.upnp.has_value() && ep.evidence.upnp->deviceType.find("RemoteControlReceiver") != std::string::npos) {
                     route.preferredEndpoint = &ep;
-                    break;
+                    return route;
                 }
             }
-        } else if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
-            // SamsungLegacyController does not implement DIAL natively.
-            // Defer to GenericDLNAController by returning nullopt to trigger fallback.
-            return std::nullopt;
-        } else {
-            route.transport = TransportFamily::SOAP;
-            for (const auto& ep : device.endpoints) {
-                if (ep.evidence.upnp.has_value() && ep.evidence.upnp->deviceType.find("MediaRenderer") != std::string::npos) {
-                    route.preferredEndpoint = &ep;
-                    break;
-                }
+            if (!device.endpoints.empty()) {
+                route.preferredEndpoint = &device.endpoints[0];
+                return route;
             }
+            return std::nullopt; // No valid endpoint found even for supported action
         }
 
-        if (!route.preferredEndpoint && !device.endpoints.empty()) {
-            route.preferredEndpoint = &device.endpoints[0];
-        }
-
-        return route;
+        // 2. Deny-by-Default for EVERYTHING else
+        // All other actions (SetVolume, Play, DIAL, undefined future actions) 
+        // fall through to the generic DLNA layer automatically.
+        return std::nullopt;
     }
 };
 

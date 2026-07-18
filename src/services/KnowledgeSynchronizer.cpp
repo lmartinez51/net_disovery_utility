@@ -18,7 +18,7 @@ void KnowledgeSynchronizer::OnExecutionCompleted(const std::string& entityId,
     record.status = result.status;
     
     if (result.status != ExecutionStatus::Success) {
-        record.failureClassification = result.errorMessage.empty() ? result.diagnosticInfo : result.errorMessage;
+        record.failureClassification = result.errorMessage.empty() ? result.transportDiagnostics.rawPayload : result.errorMessage;
     }
 
     m_store.AppendCommunicationRecord(entityId, record);

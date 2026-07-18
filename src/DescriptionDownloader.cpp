@@ -6,8 +6,10 @@
 #include "../include/DescriptionDownloader.h"
 #include "../include/HttpClient.h"
 #include "../include/core/Packet.h"
-
+#include <map>
 #include <iostream>
+
+extern bool g_verbose;
 
 namespace NetDiscovery {
 
@@ -42,9 +44,13 @@ void DescriptionDownloader::ProcessPending()
             auto it = res.headers.find("Application-URL");
             if (it != res.headers.end()) {
                 packet.metadata["Application-URL"] = it->second;
-                std::cout << "[Metadata] DescriptionDownloader extracted Application-URL: " << it->second << "\n";
+                if (g_verbose) {
+                    std::cout << "[Metadata] DescriptionDownloader extracted Application-URL: " << it->second << "\n";
+                }
             } else {
-                std::cout << "[Metadata] DescriptionDownloader found no Application-URL header\n";
+                if (g_verbose) {
+                    std::cout << "[Metadata] DescriptionDownloader found no Application-URL header\n";
+                }
             }
 
             // Dispatch to analyzers (XmlAnalyzer will pick this up)

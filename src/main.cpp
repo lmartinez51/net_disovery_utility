@@ -28,6 +28,9 @@
 #include "../include/TransportRegistry.h"
 #include "../include/DummyTransport.h"
 #include "../include/transports/DIALTransport.h"
+#include "../include/transports/soap/SOAPServiceTypes.h"
+#include "../include/transports/SOAPTransport.h"
+#include "../include/validation/ExecutionValidator.h"
 #include "../include/DeviceExecutor.h"
 #include "../src/persistence/FileKnowledgeStore.h"
 #include "../include/services/KnowledgeStore.h"
@@ -60,7 +63,12 @@ const std::vector<std::string> DEFAULT_SEARCH_TARGETS = {
 };
 
 constexpr const char* CAPTURE_BASE_DIR = "captures";
+
+} // end anonymous namespace
+
 bool g_verbose = false;
+
+namespace {
 
 void PrintSeparator(char ch = '=', int width = 70)
 {
@@ -317,88 +325,31 @@ int main(int argc, char* argv[])
     std::cout << "  Merged " << logicalDevices.size() << " devices into Knowledge Store (" 
               << knowledgeStore.GetLoadedEntities().size() << " total entities known).\n\n";
 
-    PrintHeader("PHASE 5: COMMAND EXECUTION DEMONSTRATION");
+    PrintHeader("PHASE 8.5: CAPABILITY-DRIVEN EXECUTION VALIDATION");
     
-    // 1. Initialize execution framework
     TransportRegistry transportRegistry;
     transportRegistry.RegisterTransport(std::make_shared<DummyTransport>());
     transportRegistry.RegisterTransport(std::make_shared<DIALTransport>());
+    transportRegistry.RegisterTransport(std::make_shared<SOAPTransport>());
     DeviceExecutor executor(transportRegistry, controllerRegistry);
 
-    // 2. Find a device with an actionable command to demonstrate execution
-    const LogicalDevice* targetDevice = nullptr;
-    ActionDescriptor actionToExecute;
-    bool isSimulated = false;
+    NetDiscovery::validation::ExecutionValidator validator(executor);
 
-    // First pass: specifically look for a DIAL-capable device
-    std::cout << "  [DEBUG] --- First Pass: Searching for LaunchApplication ---\n";
-    for (const auto& dev : logicalDevices) {
-        std::cout << "  [DEBUG] Evaluating device: " << dev.displayName << " (Actions: " << dev.actions.size() << ")\n";
-        for (const auto& action : dev.actions) {
-            std::cout << "  [DEBUG]   Checking action: " << action.id << "\n";
-            if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
-                std::cout << "  [DEBUG]   -> Match found! Selecting LaunchApplication.\n";
-                targetDevice = &dev;
-                actionToExecute = action;
-                break;
-            }
-        }
-        if (targetDevice) break;
-    }
+    NetDiscovery::validation::ExecutionScenario volumeScenario{
+        "Volume Control Validation",
+        Capability::VolumeControl,
+        {"GetVolume", "GetMute", "SetVolume"}
+    };
 
-    // Second pass: if no DIAL device found, just pick the first device with any actions
-    if (!targetDevice) {
-        std::cout << "  [DEBUG] --- Second Pass: Fallback to any action ---\n";
-        for (const auto& dev : logicalDevices) {
-            std::cout << "  [DEBUG] Evaluating device: " << dev.displayName << " (Actions: " << dev.actions.size() << ")\n";
-            if (!dev.actions.empty()) {
-                targetDevice = &dev;
-                actionToExecute = dev.actions[0];
-                std::cout << "  [DEBUG]   -> Picked first available action: " << actionToExecute.id << "\n";
-                break;
-            }
-        }
-    }
+    validator.RunScenario(logicalDevices, volumeScenario);
 
-    // Fallback: If no devices had actions, but we at least found a device, use it to mock an action
-    if (!targetDevice && !logicalDevices.empty()) {
-        targetDevice = &logicalDevices.front();
-        actionToExecute.id = "MockAction";
-        actionToExecute.displayName = "Mock Action";
-        isSimulated = true;
-    }
-
-    if (targetDevice) {
-        if (isSimulated) {
-            std::cout << "  [SIMULATED -- no real actionable device found on this run]\n";
-            std::cout << "  Injecting a synthetic action into the first discovered device to demonstrate the execution framework.\n\n";
-        } else if (actionToExecute.id == "LaunchApplication(name)" || actionToExecute.id == "LaunchApplication") {
-            std::cout << "  [DEMO] Attempting to launch YouTube via DIAL on " << targetDevice->displayName << "...\n\n";
-        }
-
-        // 3. Build and dispatch the request
-        std::map<std::string, std::string> reqParams;
-        if (actionToExecute.id == "LaunchApplication(name)" || actionToExecute.id == "LaunchApplication") {
-            reqParams["name"] = "YouTube";
-        }
-        ExecutionRequest req { *targetDevice, actionToExecute, reqParams, 5000, 0 };
-        ExecutionResult res = executor.Execute(req);
-        
-        // 4. Synchronize execution result back to knowledge layer
-        KnowledgeSynchronizer synchronizer(knowledgeStore);
-        std::string transportUsed = "DIALTransport";
-        if (res.status == ExecutionStatus::TransportUnavailable) transportUsed = "DummyTransport"; // fallback check loosely
-        synchronizer.OnExecutionCompleted(targetDevice->id, transportUsed, res);
-
-        std::cout << "  Execution Result: " << ToString(res.status) 
-                  << " -- executed in " << res.elapsedTimeMs << "ms.\n";
-        if (!res.diagnosticInfo.empty()) {
-            std::cout << "  Diagnostic Info : " << res.diagnosticInfo << "\n";
-        }
-        std::cout << "  [KnowledgeSynchronizer] CommunicationRecord appended to journal.\n\n";
-    } else {
-        std::cout << "  No devices found to demonstrate execution.\n";
-    }
+    NetDiscovery::validation::ExecutionScenario appScenario{
+        "Application Launch Validation",
+        Capability::ApplicationLaunching,
+        {"LaunchApplication(name)"}
+    };
+    
+    validator.RunScenario(logicalDevices, appScenario);
 
     return 0;
 }

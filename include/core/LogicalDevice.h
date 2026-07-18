@@ -14,6 +14,8 @@
 #include "DeviceSignature.h"
 #include "DeviceClass.h"
 #include "NormalizedService.h"
+#include "ServiceDescriptor.h"
+#include "StandardService.h"
 
 #include <string>
 #include <vector>
@@ -47,6 +49,29 @@ struct LogicalDevice {
     PrimaryDeviceClass primaryClass{PrimaryDeviceClass::Unknown};
     std::vector<DeviceRole> roles;
     std::vector<NormalizedService> normalizedServices;
+    std::vector<ServiceDescriptor> services;
+
+    // ----------------------------------------------------------------
+    // Service Lookup
+    // ----------------------------------------------------------------
+    std::vector<const ServiceDescriptor*> FindServices(StandardService type) const {
+        std::vector<const ServiceDescriptor*> matches;
+        for (const auto& svc : services) {
+            if (svc.standardType == type) {
+                matches.push_back(&svc);
+            }
+        }
+        return matches;
+    }
+
+    const ServiceDescriptor* FindFirstService(StandardService type) const {
+        for (const auto& svc : services) {
+            if (svc.standardType == type) {
+                return &svc;
+            }
+        }
+        return nullptr;
+    }
 
     // ----------------------------------------------------------------
     // Network & Protocols
@@ -59,6 +84,13 @@ struct LogicalDevice {
     // ----------------------------------------------------------------
     std::vector<Capability> capabilities;
     std::vector<ActionDescriptor> actions;
+    
+    bool HasCapability(Capability cap) const {
+        for (const auto& c : capabilities) {
+            if (c == cap) return true;
+        }
+        return false;
+    }
     
     std::vector<ControllerCandidate> controllerCandidates;
     

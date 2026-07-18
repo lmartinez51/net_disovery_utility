@@ -95,7 +95,7 @@ ExecutionResult DIALTransport::Execute(const ExecutionRequest& request,
 
         if (postRes.statusCode == 200 || postRes.statusCode == 201) {
             result.status = ExecutionStatus::Success;
-            result.diagnosticInfo = "App launched successfully.";
+            result.transportDiagnostics.rawPayload = "App launched successfully.";
         } else if (postRes.statusCode == 404) {
             result.status = ExecutionStatus::UnsupportedAction;
             result.errorMessage = "App not installed or found on device.";

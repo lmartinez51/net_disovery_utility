@@ -7,6 +7,9 @@
 
 #include <string>
 
+#include "core/TransportDiagnostics.h"
+#include "parsing/ParsedResponse.h"
+
 namespace NetDiscovery {
 
 enum class ExecutionStatus {
@@ -16,6 +19,7 @@ enum class ExecutionStatus {
     Timeout,
     AuthenticationRequired,
     ProtocolError,
+    ParseError,
     ExecutionFailed
 };
 
@@ -27,6 +31,7 @@ inline std::string ToString(ExecutionStatus status) {
         case ExecutionStatus::Timeout:                return "Timeout";
         case ExecutionStatus::AuthenticationRequired: return "AuthenticationRequired";
         case ExecutionStatus::ProtocolError:          return "ProtocolError";
+        case ExecutionStatus::ParseError:             return "ParseError";
         case ExecutionStatus::ExecutionFailed:        return "ExecutionFailed";
         default:                                      return "Unknown";
     }
@@ -39,7 +44,15 @@ struct ExecutionResult {
     ExecutionStatus status;
     int elapsedTimeMs{0};
     std::string errorMessage;
-    std::string diagnosticInfo;
+    
+    // Transport layer diagnostics
+    TransportDiagnostics transportDiagnostics;
+    
+    // Parsed protocol fields (populated by the Execution Engine invoking a parser)
+    std::unordered_map<std::string, std::string> parsedFields;
+    
+    // Parser layer diagnostics
+    netdiscovery::parsing::ParserDiagnostics parserDiagnostics;
 };
 
 } // namespace NetDiscovery

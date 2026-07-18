@@ -101,11 +101,17 @@ void PresentationFormatter::PrintLogicalDevices(const std::vector<LogicalDevice>
         std::cout << "  Protocol Endpoints\n";
         std::set<std::string> printedEndpoints;
         for (const auto& ep : dev.endpoints) {
-            std::string sourceStr = DiscoverySourceToString(ep.discoverySources.empty() ? DiscoverySource::SSDP : ep.discoverySources[0]);
+            bool hasSsdp = std::find(ep.discoverySources.begin(), ep.discoverySources.end(), DiscoverySource::SSDP) != ep.discoverySources.end();
+            bool hasUpnp = ep.evidence.upnp.has_value() && !ep.evidence.upnp->deviceType.empty();
             
-            // For UPnP, let's just print a clean summary if available
-            if (ep.evidence.upnp.has_value() && !ep.evidence.upnp->deviceType.empty()) {
-                // Shorten deviceType e.g. "urn:schemas-upnp-org:device:MediaRenderer:1" -> "UPnP MediaRenderer"
+            if (hasSsdp || (!hasSsdp && !hasUpnp && ep.discoverySources.empty())) {
+                std::string epStr = "  - SSDP Discovery (" + ep.ip + ")";
+                if (printedEndpoints.insert(epStr).second) {
+                    std::cout << epStr << "\n";
+                }
+            }
+
+            if (hasUpnp) {
                 std::string type = ep.evidence.upnp->deviceType;
                 auto pos = type.find(":device:");
                 if (pos != std::string::npos) {
@@ -119,10 +125,25 @@ void PresentationFormatter::PrintLogicalDevices(const std::vector<LogicalDevice>
                 if (printedEndpoints.insert(epStr).second) {
                     std::cout << epStr << "\n";
                 }
-            } else {
+            } else if (!hasSsdp) { // fallback for unknown
+                std::string sourceStr = DiscoverySourceToString(ep.discoverySources.empty() ? DiscoverySource::SSDP : ep.discoverySources[0]);
                 std::string epStr = "  - " + sourceStr + " (" + ep.ip + ")";
                 if (printedEndpoints.insert(epStr).second) {
                     std::cout << epStr << "\n";
+                }
+            }
+        }
+        std::cout << "\n";
+
+        // Generic Services
+        std::cout << "  Exposed Services (" << dev.services.size() << ")\n";
+        if (dev.services.empty()) {
+            std::cout << "  (None)\n";
+        } else {
+            for (const auto& svc : dev.services) {
+                std::cout << "  - " << svc.serviceType << "\n";
+                if (!svc.controlUrl.empty()) {
+                    std::cout << "      Control: " << svc.controlUrl << "\n";
                 }
             }
         }

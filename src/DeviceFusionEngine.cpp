@@ -1,4 +1,6 @@
 #include "../include/DeviceFusionEngine.h"
+#include "../include/core/StandardService.h"
+#include "../include/core/ServiceDescriptor.h"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -227,6 +229,16 @@ std::vector<LogicalDevice> DeviceFusionEngine::Fuse(const std::vector<IdentityEv
         return {};
     };
 
+    // Helper: extract Base URL (scheme://host:port) from a location URL
+    auto getBaseUrl = [](const std::string& url) -> std::string {
+        if (url.empty()) return {};
+        size_t schemeEnd = url.find("://");
+        if (schemeEnd == std::string::npos) return {};
+        size_t pathStart = url.find('/', schemeEnd + 3);
+        if (pathStart == std::string::npos) return url;
+        return url.substr(0, pathStart);
+    };
+
     // Step 4: Heuristic Fusion across LogicalDevices
     std::vector<LogicalDevice> logicalDevices;
     for (auto& baseDev : baseDevices) {
@@ -248,8 +260,16 @@ std::vector<LogicalDevice> DeviceFusionEngine::Fuse(const std::vector<IdentityEv
 
             // 3. Same LOCATION URL (strongest non-UUID heuristic for SSDP sub-devices)
             const std::string logicalLocation = getLocationUrl(logicalDev);
-            if (!baseLocation.empty() && !logicalLocation.empty() && baseLocation == logicalLocation) {
-                fusionScore += policy.sameLocationUrlMatch;
+            if (!baseLocation.empty() && !logicalLocation.empty()) {
+                if (baseLocation == logicalLocation) {
+                    fusionScore += policy.sameLocationUrlMatch;
+                } else {
+                    std::string baseBaseUrl = getBaseUrl(baseLocation);
+                    std::string logicalBaseUrl = getBaseUrl(logicalLocation);
+                    if (!baseBaseUrl.empty() && baseBaseUrl == logicalBaseUrl) {
+                        fusionScore += policy.sameBaseUrlMatch;
+                    }
+                }
             }
 
             // 4. Presentation URL Match
@@ -306,6 +326,51 @@ std::vector<LogicalDevice> DeviceFusionEngine::Fuse(const std::vector<IdentityEv
         
         if (!fused) {
             logicalDevices.push_back(std::move(baseDev));
+        }
+    }
+    
+    // Step 5: Extract and normalize services into the generic ServiceDescriptor format
+    for (auto& dev : logicalDevices) {
+        for (const auto& ep : dev.endpoints) {
+            if (!ep.evidence.upnp.has_value()) continue;
+            
+            for (const auto& upnpSvc : ep.evidence.upnp->services) {
+                // Deduplicate by serviceId across endpoints
+                bool exists = false;
+                for (const auto& existing : dev.services) {
+                    if (existing.serviceId == upnpSvc.serviceId) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (exists) continue;
+
+                ServiceDescriptor sd;
+                sd.protocolFamily = "UPnP";
+                sd.uniqueId = dev.id + "::" + upnpSvc.serviceId;
+                sd.serviceType = upnpSvc.serviceType;
+                sd.serviceId = upnpSvc.serviceId;
+                sd.controlUrl = upnpSvc.controlUrl;
+                sd.eventUrl = upnpSvc.eventUrl;
+                sd.scpdUrl = upnpSvc.scpdUrl;
+                
+                // Map to StandardService
+                if (sd.serviceType.find("RenderingControl") != std::string::npos) {
+                    sd.standardType = StandardService::RenderingControl;
+                } else if (sd.serviceType.find("AVTransport") != std::string::npos) {
+                    sd.standardType = StandardService::AVTransport;
+                } else if (sd.serviceType.find("ConnectionManager") != std::string::npos) {
+                    sd.standardType = StandardService::ConnectionManager;
+                } else if (sd.serviceType.find("DIAL") != std::string::npos) {
+                    sd.standardType = StandardService::DIAL;
+                } else if (sd.serviceType.find("RemoteControl") != std::string::npos || sd.serviceType.find("NetworkControl") != std::string::npos) {
+                    sd.standardType = StandardService::RemoteControl;
+                } else {
+                    sd.standardType = StandardService::Unknown;
+                }
+                
+                dev.services.push_back(sd);
+            }
         }
     }
     

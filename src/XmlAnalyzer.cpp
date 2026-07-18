@@ -8,6 +8,8 @@
 #include <iostream>
 #include "../include/core/evidence/IdentityEvidence.h"
 
+extern bool g_verbose;
+
 namespace NetDiscovery {
 
 void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
@@ -26,9 +28,13 @@ void XmlAnalyzer::Analyze(const Packet& packet, DeviceRegistry& registry)
     auto appIt = packet.metadata.find("Application-URL");
     if (appIt != packet.metadata.end()) {
         applicationUrl = appIt->second;
-        std::cout << "[Metadata] XmlAnalyzer transferred Application-URL to UPnPEvidence: " << appIt->second << "\n";
+        if (g_verbose) {
+            std::cout << "[Metadata] XmlAnalyzer transferred Application-URL to UPnPEvidence: " << appIt->second << "\n";
+        }
     } else {
-        std::cout << "[Metadata] XmlAnalyzer found no Application-URL in packet metadata\n";
+        if (g_verbose) {
+            std::cout << "[Metadata] XmlAnalyzer found no Application-URL in packet metadata\n";
+        }
     }
 
     std::string xml = packet.rawPayload;

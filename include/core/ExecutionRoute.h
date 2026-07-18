@@ -8,8 +8,10 @@
 #include "TransportFamily.h"
 #include "ProtocolEndpoint.h"
 #include <string>
+#include "IExecutionContext.h"
 #include <vector>
 #include <map>
+#include <memory>
 
 namespace NetDiscovery {
 
@@ -22,6 +24,7 @@ struct ExecutionRoute {
     const ProtocolEndpoint* preferredEndpoint{nullptr};
     std::vector<const ProtocolEndpoint*> additionalEndpoints;
     std::map<std::string, std::string> metadata;
+    std::shared_ptr<IExecutionContext> executionContext;
 };
 
 } // namespace NetDiscovery

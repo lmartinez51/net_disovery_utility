@@ -7,6 +7,12 @@
 
 #include <iostream>
 #include "../IDeviceController.h"
+#include "../transports/soap/SOAPExecutionContext.h"
+#include "../transports/soap/builders/RenderingControlBuilder.h"
+#include "../transports/soap/builders/AVTransportBuilder.h"
+#include "../transports/soap/builders/ConnectionManagerBuilder.h"
+
+extern bool g_verbose;
 
 namespace NetDiscovery {
 
@@ -124,9 +130,13 @@ public:
                         
                         if (!ep.evidence.upnp->applicationUrl.empty()) {
                             route.metadata["Application-URL"] = ep.evidence.upnp->applicationUrl;
-                            std::cout << "[Metadata] GenericDLNAController adding Application-URL to route: " << ep.evidence.upnp->applicationUrl << "\n";
+                            if (g_verbose) {
+                                std::cout << "[Metadata] GenericDLNAController adding Application-URL to route: " << ep.evidence.upnp->applicationUrl << "\n";
+                            }
                         } else {
-                            std::cout << "[Metadata] GenericDLNAController found NO Application-URL in endpoint evidence\n";
+                            if (g_verbose) {
+                                std::cout << "[Metadata] GenericDLNAController found NO Application-URL in endpoint evidence\n";
+                            }
                         }
                         return route;
                     }
@@ -137,32 +147,119 @@ public:
         // Default SOAP Support
         route.transport = TransportFamily::SOAP;
         
-        // Find the most appropriate endpoint based on action category
-        std::string targetService;
-        if (action.category == ActionCategory::MediaPlayback || action.category == ActionCategory::MediaTransport) {
-            targetService = "AVTransport";
+        // Find the most appropriate service based on action category
+        StandardService targetService;
+        if (action.id == "GetProtocolInfo") {
+            targetService = StandardService::ConnectionManager;
+        } else if (action.category == ActionCategory::MediaPlayback || action.category == ActionCategory::MediaTransport) {
+            targetService = StandardService::AVTransport;
         } else if (action.category == ActionCategory::System || action.category == ActionCategory::Unknown) {
-            targetService = "RenderingControl"; // default for volume etc
+            targetService = StandardService::RenderingControl; // default for volume etc
         } else {
-            targetService = "RenderingControl";
+            targetService = StandardService::RenderingControl;
         }
 
-        // Try to find the endpoint that provides this service
+        // 1. Find the generic service descriptor
+        const ServiceDescriptor* svcDesc = device.FindFirstService(targetService);
+        if (!svcDesc) {
+            if (g_verbose) {
+                std::cout << "[Metadata] GenericDLNAController found NO service matching standard type " << static_cast<int>(targetService) << "\n";
+            }
+            return std::nullopt; // Or fallback, but realistically without the service we can't execute.
+        }
+
+        // 2. Select the preferred endpoint that matches the protocol family
         for (const auto& ep : device.endpoints) {
-            if (ep.evidence.upnp.has_value()) {
-                // Simplified matching for now - just returning the first UPnP endpoint
-                // A real implementation would parse the xml to find the specific control URL
+            if (svcDesc->protocolFamily == "UPnP" && ep.evidence.upnp.has_value()) {
                 route.preferredEndpoint = &ep;
                 break;
             }
         }
-
         if (!route.preferredEndpoint && !device.endpoints.empty()) {
             route.preferredEndpoint = &device.endpoints[0];
         }
 
-        route.metadata["ServiceType"] = targetService;
-        route.metadata["SOAPACTION"] = action.id;
+        // 3. Build the execution context using the stateless builders
+        SOAPRequest soapReq;
+        
+        if (targetService == StandardService::RenderingControl) {
+            if (action.id == "SetVolume(level)" || action.id == "SetVolume") {
+                SetVolumeRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                req.targetVolume = 15; // Hardcoded placeholder for Phase 8A
+                soapReq = RenderingControlBuilder::BuildSetVolume(req);
+            } else if (action.id == "GetVolume" || action.id == "VolumeUp" || action.id == "VolumeDown") {
+                // We map VolumeUp/VolumeDown to GetVolume for now just for the Phase 8A demo 
+                // until Phase 8B implements the real orchestration.
+                GetVolumeRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = RenderingControlBuilder::BuildGetVolume(req);
+            } else if (action.id == "GetMute") {
+                GetMuteRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = RenderingControlBuilder::BuildGetMute(req);
+            } else if (action.id == "SetMute" || action.id == "Mute") {
+                SetMuteRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                req.muteStatus = true; // Hardcoded placeholder
+                soapReq = RenderingControlBuilder::BuildSetMute(req);
+            } else {
+                return std::nullopt; // Action not supported yet
+            }
+        } else if (targetService == StandardService::AVTransport) {
+            if (action.id == "Play") {
+                PlayRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = AVTransportBuilder::BuildPlay(req);
+            } else if (action.id == "Pause") {
+                PauseRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = AVTransportBuilder::BuildPause(req);
+            } else if (action.id == "Stop") {
+                StopRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = AVTransportBuilder::BuildStop(req);
+            } else if (action.id == "Next") {
+                NextRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = AVTransportBuilder::BuildNext(req);
+            } else if (action.id == "Previous") {
+                PreviousRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = AVTransportBuilder::BuildPrevious(req);
+            } else if (action.id == "Seek") {
+                SeekRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                req.target = "00:00:00"; // Hardcoded placeholder
+                soapReq = AVTransportBuilder::BuildSeek(req);
+            } else {
+                return std::nullopt; // Action not supported yet
+            }
+        } else if (targetService == StandardService::ConnectionManager) {
+            if (action.id == "GetProtocolInfo") {
+                GetProtocolInfoRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                soapReq = ConnectionManagerBuilder::BuildGetProtocolInfo(req);
+            } else {
+                return std::nullopt; // Action not supported yet
+            }
+        } else {
+            return std::nullopt;
+        }
+        
+        auto soapContext = std::make_shared<SOAPExecutionContext>(soapReq);
+        route.executionContext = soapContext;
 
         return route;
     }
