@@ -264,7 +264,7 @@ Controller Resolver
 
 - **Separation of Concerns** — Discovery, Data Extraction, Classification, and Controller Execution are rigorously separated.
 - **Evidence-Based Identity** — Devices are identified heuristically without rigid assumptions.
-- **No external libraries** — heavily relies on pure C++17 standard library functionality.
+- **Minimal external dependencies** — heavily relies on pure C++17 standard library functionality, using only tinyxml2 for lightweight XML parsing.
 - **Platform Agnostic** — Windows winsock API is hidden entirely behind interfaces.
 
 ---
