@@ -39,7 +39,7 @@ void ExecutionValidator::RunScenario(const std::vector<LogicalDevice>& devices, 
         if (actionStr == "LaunchApplication(name)") {
             reqParams["name"] = "YouTube";
         }
-        ExecutionRequest req { *targetDevice, actionToExecute, reqParams, 5000, 0 };
+        ExecutionRequest req { *targetDevice, actionToExecute, reqParams, ExecutionContext{}, 5000, 0 };
         ExecutionResult res = m_executor.Execute(req);
         
         std::cout << "  Execution Result: " << ToString(res.status) 

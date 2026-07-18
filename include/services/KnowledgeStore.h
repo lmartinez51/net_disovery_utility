@@ -47,6 +47,11 @@ public:
     void ArchiveEntity(const std::string& entityId);
 
     /**
+     * @brief Mark an entity for update with new credentials.
+     */
+    void UpdateCredentials(const std::string& deviceId, const std::string& key, const std::string& value);
+
+    /**
      * @brief Directly appends a communication record (called by Synchronizer).
      */
     void AppendCommunicationRecord(const std::string& entityId, const CommunicationRecord& record);

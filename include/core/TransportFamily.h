@@ -14,8 +14,9 @@ enum class TransportFamily {
     SOAP,
     DIAL,
     HTTP,
-    SamsungLegacy,
-    SamsungRemote,
+    REST,
+    WebSocket,
+    WakeOnLAN,
     BLE,
     Matter,
     IR,
@@ -27,8 +28,9 @@ inline std::string ToString(TransportFamily family) {
         case TransportFamily::SOAP:          return "SOAP";
         case TransportFamily::DIAL:          return "DIAL";
         case TransportFamily::HTTP:          return "HTTP";
-        case TransportFamily::SamsungLegacy: return "SamsungLegacy";
-        case TransportFamily::SamsungRemote: return "SamsungRemote";
+        case TransportFamily::REST:          return "REST";
+        case TransportFamily::WebSocket:     return "WebSocket";
+        case TransportFamily::WakeOnLAN:     return "WakeOnLAN";
         case TransportFamily::BLE:           return "BLE";
         case TransportFamily::Matter:        return "Matter";
         case TransportFamily::IR:            return "IR";

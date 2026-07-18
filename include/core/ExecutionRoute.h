@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include "IExecutionStrategy.h"
 
 namespace NetDiscovery {
 
@@ -25,6 +26,7 @@ struct ExecutionRoute {
     std::vector<const ProtocolEndpoint*> additionalEndpoints;
     std::map<std::string, std::string> metadata;
     std::shared_ptr<IExecutionContext> executionContext;
+    std::shared_ptr<IExecutionStrategy> strategy;
 };
 
 } // namespace NetDiscovery

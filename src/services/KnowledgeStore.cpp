@@ -88,6 +88,16 @@ void KnowledgeStore::UpdateFromDiscovery(const LogicalDevice& liveDevice) {
     PersistEntity(m_entities[entityId]);
 }
 
+void KnowledgeStore::UpdateCredentials(const std::string& deviceId, const std::string& key, const std::string& value) {
+    for (auto& pair : m_entities) {
+        if (pair.second.persistentId == deviceId || pair.second.lastObservedIdentity == deviceId) {
+            pair.second.credentials[key] = value;
+            PersistEntity(pair.second);
+            break;
+        }
+    }
+}
+
 void KnowledgeStore::ArchiveEntity(const std::string& entityId) {
     if (m_entities.find(entityId) != m_entities.end()) {
         AddJournalEntry(m_entities[entityId], JournalEventType::Archived, "User archived entity.");
@@ -258,6 +268,10 @@ KnowledgeEntity KnowledgeStore::DeserializeEntity(const std::string& data) const
             if (key == "PERSISTENT_ID") entity.persistentId = val;
             else if (key == "DISPLAY_NAME") entity.displayName = val;
             else if (key == "FIRST_DISCOVERED") entity.firstDiscovered = std::stoll(val);
+            else if (key.find("CREDENTIAL:") == 0) {
+                std::string credKey = key.substr(11);
+                entity.credentials[credKey] = val;
+            }
             else if (key == "LAST_SEEN") entity.lastSeen = std::stoll(val);
             else if (key == "CONTROLLERS") {
                 std::istringstream css(val);

@@ -70,6 +70,7 @@ public:
     virtual std::optional<ExecutionRoute> GetExecutionRoute(
         const LogicalDevice& device, 
         const ActionDescriptor& action) const = 0;
+
 };
 
 } // namespace NetDiscovery

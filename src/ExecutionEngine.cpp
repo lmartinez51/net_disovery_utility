@@ -5,8 +5,9 @@
 namespace NetDiscovery {
 
 ExecutionEngine::ExecutionEngine(const TransportRegistry& transportRegistry, 
-                                 const ControllerRegistry& controllerRegistry)
-    : transportSelector(transportRegistry), controllerRegistry(controllerRegistry) {
+                                 const ControllerRegistry& controllerRegistry,
+                                 std::shared_ptr<AuthenticationManager> authManager)
+    : transportSelector(transportRegistry), controllerRegistry(controllerRegistry), authManager(authManager) {
 }
 
 ExecutionResult ExecutionEngine::Execute(const ExecutionRequest& request) {
@@ -71,8 +72,32 @@ ExecutionResult ExecutionEngine::Execute(const ExecutionRequest& request) {
         return res;
     }
 
+    // 3.5. Authentication
+    ExecutionRequest modifiableRequest = request; // In real code, request shouldn't be const if we mutate context, but for now we just cast or copy
+    if (authManager) {
+        authManager->InjectCredentials(modifiableRequest.device.id, modifiableRequest.context);
+        
+        std::string deviceId = modifiableRequest.device.id;
+        std::shared_ptr<AuthenticationManager> localAuthManager = authManager;
+        modifiableRequest.context.onCredentialUpdated = [deviceId, localAuthManager](const std::string& key, const std::string& value) {
+            localAuthManager->SaveCredentials(deviceId, key, value);
+        };
+    }
+
+    // 3.8. Strategy Request Building
+    if (routeOpt.value().strategy) {
+        routeOpt.value().strategy->BuildRequest(modifiableRequest, routeOpt.value());
+    }
+
     // 4. Dispatch
-    ExecutionResult result = transport->Execute(request, routeOpt.value());
+    ExecutionResult result = transport->Execute(modifiableRequest, routeOpt.value());
+    
+    // 5. Strategy Response Processing
+    if (routeOpt.value().strategy) {
+        routeOpt.value().strategy->ProcessResponse(result, modifiableRequest.context);
+    }
+    
+
     
     // In case the transport didn't fill in elapsed time
     if (result.elapsedTimeMs == 0) {

@@ -109,6 +109,11 @@ public:
      */
     void SetReceiveTimeout(int seconds);
 
+    /**
+     * @brief Enable or disable broadcast permission on the socket.
+     */
+    void EnableBroadcast(bool enable = true);
+
     // ----------------------------------------------------------------
     // I/O
     // ----------------------------------------------------------------

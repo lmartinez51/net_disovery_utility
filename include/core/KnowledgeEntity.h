@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace NetDiscovery {
 
@@ -41,6 +42,7 @@ struct KnowledgeEntity {
     std::vector<Capability> capabilities;
     std::vector<std::string> compatibleControllers; // Resolved dynamically via ControllerRegistry, persisted as strings
     std::vector<ProtocolEndpoint> endpoints;
+    std::map<std::string, std::string> credentials; // Persisted authentication data
     
     // ----------------------------------------------------------------
     // Communication & History

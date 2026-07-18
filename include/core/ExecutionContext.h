@@ -7,6 +7,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <functional>
 
 namespace NetDiscovery {
 
@@ -22,6 +24,8 @@ struct ExecutionContext {
     std::string currentRoom;
     std::string conversationContext;
     std::vector<std::string> semanticScope;
+    std::map<std::string, std::string> credentials;
+    std::function<void(const std::string& key, const std::string& value)> onCredentialUpdated;
 };
 
 } // namespace NetDiscovery

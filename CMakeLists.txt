@@ -71,6 +71,9 @@ set(NETDISCOVERY_SOURCES
     # ── Phase 5: Command Execution Framework ──────────
     src/DummyTransport.cpp
     src/transports/DIALTransport.cpp
+    src/transports/WebSocketTransport.cpp
+    src/transports/websocket/SamsungWebSocketStrategy.cpp
+    src/transports/WakeOnLANTransport.cpp
     src/transports/SOAPTransport.cpp
     src/transports/soap/builders/RenderingControlBuilder.cpp
     src/transports/soap/builders/AVTransportBuilder.cpp
@@ -79,6 +82,7 @@ set(NETDISCOVERY_SOURCES
     src/TransportSelector.cpp
     src/ExecutionEngine.cpp
     src/DeviceExecutor.cpp
+    src/core/AuthenticationManager.cpp
     src/validation/ExecutionValidator.cpp
     
     # ── Phase 5.5: Device Knowledge Store ─────────────
@@ -124,6 +128,7 @@ set(NETDISCOVERY_HEADERS
     include/core/KnowledgeModels.h
     include/core/KnowledgeEntity.h
     include/core/ExecutionContext.h
+    include/core/AuthenticationManager.h
 
     # ── Protocol interface & analyzers ────────────────
     include/IProtocolAnalyzer.h

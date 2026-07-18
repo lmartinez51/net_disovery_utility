@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ActionDescriptor.h"
+#include "ExecutionContext.h"
 #include <string>
 #include <map>
 
@@ -21,6 +22,7 @@ struct ExecutionRequest {
     const LogicalDevice& device;
     ActionDescriptor action;
     std::map<std::string, std::string> parameters;
+    ExecutionContext context;
     int timeoutMs{5000};
     int executionFlags{0}; // For future use
 };

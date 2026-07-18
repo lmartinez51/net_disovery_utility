@@ -112,6 +112,19 @@ void UdpSocket::SetReceiveTimeout(int seconds)
     Platform::SetSocketTimeoutMs(static_cast<SOCKET>(m_handle), seconds);
 }
 
+void UdpSocket::EnableBroadcast(bool enable)
+{
+    if (!IsOpen()) {
+        throw std::runtime_error("Cannot set broadcast on a closed socket");
+    }
+    
+    BOOL bBroadcast = enable ? TRUE : FALSE;
+    if (setsockopt(static_cast<SOCKET>(m_handle), SOL_SOCKET, SO_BROADCAST,
+                   reinterpret_cast<const char*>(&bBroadcast), sizeof(bBroadcast)) == SOCKET_ERROR) {
+        throw std::runtime_error("setsockopt(SO_BROADCAST) failed");
+    }
+}
+
 // ============================================================
 // Send()
 // ============================================================

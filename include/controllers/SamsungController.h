@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../IDeviceController.h"
+#include "../transports/websocket/SamsungWebSocketStrategy.h"
 #include <algorithm>
 
 namespace NetDiscovery {
@@ -121,10 +122,42 @@ public:
         const ActionDescriptor& action) const override {
         
         // 1. Explicit Allowlist of actions this controller natively implements
-        if (action.id == "PowerOn" || action.id == "PowerOff" || action.id == "SendKey(key)") {
+        std::string keyName = "";
+        if (action.id == "PowerOn") {
+            if (device.signature.mac.has_value() && !device.signature.mac->empty()) {
+                ExecutionRoute route;
+                route.transport = TransportFamily::WakeOnLAN;
+                route.metadata["Target-MAC"] = device.signature.mac.value();
+                if (!device.endpoints.empty()) {
+                    route.preferredEndpoint = &device.endpoints[0];
+                }
+                return route;
+            } else {
+                // Cannot WakeOnLAN without MAC address
+                return std::nullopt;
+            }
+        } else if (action.id == "PowerOff") {
+            keyName = "KEY_POWER";
+        } else if (action.id == "SendKey") {
+            keyName = "KEY_UNKNOWN"; // We would normally extract the key from params
+        } else if (action.id == "VolumeUp") {
+            keyName = "KEY_VOLUP";
+        } else if (action.id == "VolumeDown") {
+            keyName = "KEY_VOLDOWN";
+        } else if (action.id == "SetVolume") {
+            keyName = "KEY_VOLDOWN"; // Simplification since SetVolume needs semantic mapping to keys
+        } else if (action.id == "Mute") {
+            keyName = "KEY_MUTE";
+        }
+
+        if (!keyName.empty()) {
             ExecutionRoute route;
-            route.transport = TransportFamily::SamsungRemote;
-            route.metadata["KeyCode"] = action.id; 
+            route.transport = TransportFamily::WebSocket;
+            route.metadata["WebSocket-Host"] = device.primaryIp;
+            route.metadata["WebSocket-Port"] = "8001";
+            
+            // Assign the strategy to handle request building and response processing
+            route.strategy = std::make_shared<Strategy::SamsungWebSocketStrategy>();
             
             for (const auto& ep : device.endpoints) {
                 if (ep.evidence.upnp.has_value() && ep.evidence.upnp->deviceType.find("RemoteControlReceiver") != std::string::npos) {
@@ -140,10 +173,9 @@ public:
         }
 
         // 2. Deny-by-Default for EVERYTHING else
-        // All other actions (SetVolume, Play, DIAL, undefined future actions) 
-        // fall through to the generic DLNA layer automatically.
         return std::nullopt;
     }
+
 };
 
 } // namespace NetDiscovery

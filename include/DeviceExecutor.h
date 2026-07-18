@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ExecutionEngine.h"
+#include "core/AuthenticationManager.h"
 #include <memory>
 
 namespace NetDiscovery {
@@ -21,7 +22,8 @@ namespace NetDiscovery {
 class DeviceExecutor {
 public:
     DeviceExecutor(const TransportRegistry& transportRegistry, 
-                   const ControllerRegistry& controllerRegistry);
+                   const ControllerRegistry& controllerRegistry,
+                   std::shared_ptr<AuthenticationManager> authManager = nullptr);
 
     ExecutionResult Execute(const ExecutionRequest& request);
 

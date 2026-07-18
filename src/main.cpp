@@ -28,6 +28,9 @@
 #include "../include/TransportRegistry.h"
 #include "../include/DummyTransport.h"
 #include "../include/transports/DIALTransport.h"
+#include "../include/transports/WebSocketTransport.h"
+#include "../include/transports/WakeOnLANTransport.h"
+#include "../include/core/AuthenticationManager.h"
 #include "../include/transports/soap/SOAPServiceTypes.h"
 #include "../include/transports/SOAPTransport.h"
 #include "../include/validation/ExecutionValidator.h"
@@ -42,6 +45,8 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <algorithm>
 #include <vector>
 
 #ifdef _WIN32
@@ -331,7 +336,11 @@ int main(int argc, char* argv[])
     transportRegistry.RegisterTransport(std::make_shared<DummyTransport>());
     transportRegistry.RegisterTransport(std::make_shared<DIALTransport>());
     transportRegistry.RegisterTransport(std::make_shared<SOAPTransport>());
-    DeviceExecutor executor(transportRegistry, controllerRegistry);
+    transportRegistry.RegisterTransport(std::make_shared<WebSocketTransport>());
+    transportRegistry.RegisterTransport(std::make_shared<WakeOnLANTransport>());
+    
+    auto authManager = std::make_shared<AuthenticationManager>(&knowledgeStore);
+    DeviceExecutor executor(transportRegistry, controllerRegistry, authManager);
 
     NetDiscovery::validation::ExecutionValidator validator(executor);
 
@@ -350,6 +359,68 @@ int main(int argc, char* argv[])
     };
     
     validator.RunScenario(logicalDevices, appScenario);
+
+    auto RunSamsungDiagnosticProbe = [](const std::string& targetIp) {
+        std::cout << "\n======================================================================\n";
+        std::cout << "  PHASE 9.2: SAMSUNG CONNECTIVITY PROBE (" << targetIp << ")\n";
+        std::cout << "======================================================================\n";
+        
+        std::vector<uint16_t> ports = {8000, 8001, 55000, 56000};
+        for (uint16_t port : ports) {
+            std::cout << "  Probe Port " << port << "...\n";
+            try {
+                NetDiscovery::TcpSocket sock;
+                sock.Connect(targetIp, port);
+                std::cout << "    [+] Connection ACCEPTED.\n";
+                
+                std::string req = "GET / HTTP/1.1\r\nHost: " + targetIp + "\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\nSec-WebSocket-Version: 13\r\n\r\n";
+                sock.Send(req);
+                
+                char buf[2048];
+                int bytes = 0;
+                try {
+                    bytes = sock.Receive(buf, sizeof(buf) - 1);
+                } catch(const std::exception& e) {
+                    std::cout << "    [-] Error reading response: " << e.what() << "\n";
+                }
+                
+                if (bytes > 0) {
+                    buf[bytes] = '\0';
+                    std::string resp(buf, bytes);
+                    if (resp.find("HTTP/") == 0) {
+                        std::cout << "    [+] HTTP Response Detected:\n";
+                        size_t headerEnd = resp.find("\r\n\r\n");
+                        std::string headers = (headerEnd != std::string::npos) ? resp.substr(0, headerEnd) : resp;
+                        
+                        // Print headers line by line with indentation
+                        std::istringstream iss(headers);
+                        std::string line;
+                        while (std::getline(iss, line)) {
+                            std::cout << "        " << line << "\n";
+                        }
+                        
+                        if (resp.find("101 Switching Protocols") != std::string::npos || resp.find("101 Upgrade") != std::string::npos) {
+                            std::cout << "    [+] HTTP Upgrade to WebSocket ACCEPTED.\n";
+                        }
+                    } else {
+                        std::cout << "    [+] Binary/Raw data received (" << bytes << " bytes):\n        Hex: ";
+                        for (int i = 0; i < std::min(bytes, 32); ++i) {
+                            printf("%02X ", static_cast<uint8_t>(buf[i]));
+                        }
+                        std::cout << "\n";
+                    }
+                } else {
+                    std::cout << "    [-] Connection closed immediately (0 bytes read).\n";
+                }
+            } catch (const std::exception& e) {
+                std::cout << "    [-] Connection REFUSED / TIMEOUT: " << e.what() << "\n";
+            }
+            std::cout << "----------------------------------------------------------------------\n";
+        }
+    };
+    
+    // Hardcoded fallback since this is a one-off diagnostic tool
+    RunSamsungDiagnosticProbe("192.168.1.13");
 
     return 0;
 }
