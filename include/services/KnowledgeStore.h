@@ -78,6 +78,7 @@ private:
     // Internal Merge Logic
     void MergeEndpoints(KnowledgeEntity& existing, const std::vector<ProtocolEndpoint>& liveEndpoints);
     void MergeCapabilities(KnowledgeEntity& existing, const std::vector<Capability>& liveCaps);
+    void MergeCapabilityProfiles(KnowledgeEntity& existing, const std::vector<CapabilityProfile>& liveProfiles);
     void AddJournalEntry(KnowledgeEntity& entity, JournalEventType type, const std::string& description);
     
     void PersistEntity(const KnowledgeEntity& entity);

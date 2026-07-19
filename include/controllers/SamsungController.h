@@ -112,8 +112,8 @@ public:
 
     std::vector<ActionDescriptor> VendorActions() const override {
         return {
-            {"PowerOn", "Power On", ActionCategory::Power, {}, false, ""},
-            {"PowerOff", "Power Off", ActionCategory::Power, {}, false, ""}
+            {ActionId::PowerOn, "Power On", ActionCategory::Power, {}, false, ""},
+            {ActionId::PowerOff, "Power Off", ActionCategory::Power, {}, false, ""}
         };
     }
 
@@ -123,7 +123,7 @@ public:
         
         // 1. Explicit Allowlist of actions this controller natively implements
         std::string keyName = "";
-        if (action.id == "PowerOn") {
+        if (action.id == ActionId::PowerOn) {
             if (device.signature.mac.has_value() && !device.signature.mac->empty()) {
                 ExecutionRoute route;
                 route.transport = TransportFamily::WakeOnLAN;
@@ -136,17 +136,24 @@ public:
                 // Cannot WakeOnLAN without MAC address
                 return std::nullopt;
             }
-        } else if (action.id == "PowerOff") {
+        } else if (action.id == ActionId::PowerOff) {
             keyName = "KEY_POWER";
-        } else if (action.id == "SendKey") {
+        } else if (action.id == ActionId::SendKey) {
             keyName = "KEY_UNKNOWN"; // We would normally extract the key from params
-        } else if (action.id == "VolumeUp") {
+        } else if (action.id == ActionId::CheckReachable) {
+            ExecutionRoute route;
+            route.transport = TransportFamily::Unknown;
+            if (!device.endpoints.empty()) {
+                route.preferredEndpoint = &device.endpoints[0];
+            }
+            return route;
+        } else if (action.id == ActionId::VolumeUp) {
             keyName = "KEY_VOLUP";
-        } else if (action.id == "VolumeDown") {
+        } else if (action.id == ActionId::VolumeDown) {
             keyName = "KEY_VOLDOWN";
-        } else if (action.id == "SetVolume") {
+        } else if (action.id == ActionId::SetVolume) {
             keyName = "KEY_VOLDOWN"; // Simplification since SetVolume needs semantic mapping to keys
-        } else if (action.id == "Mute") {
+        } else if (action.id == ActionId::Mute) {
             keyName = "KEY_MUTE";
         }
 

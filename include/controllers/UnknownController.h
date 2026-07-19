@@ -45,7 +45,7 @@ public:
         
         // TEMPORARY WIRING for Phase 8 -> 9 Demo 
         // Force DIAL transport route for Application Launching
-        if (action.id == "LaunchApplication(name)") {
+        if (action.id == ActionId::LaunchApplication) {
             ExecutionRoute route;
             route.transport = TransportFamily::DIAL;
             
@@ -68,6 +68,13 @@ public:
                     }
                 }
             }
+        } else if (action.id == ActionId::CheckReachable) {
+            ExecutionRoute route;
+            route.transport = TransportFamily::Unknown;
+            if (!device.endpoints.empty()) {
+                route.preferredEndpoint = &device.endpoints[0];
+            }
+            return route;
         }
         
         return std::nullopt;

@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <string>
 #include <vector>
+#include "ActionId.h"
 
 namespace NetDiscovery {
 
@@ -35,7 +35,7 @@ struct ActionParameter {
  * @brief Full description of an action that can be executed by a controller.
  */
 struct ActionDescriptor {
-    std::string id;            // e.g., "SetVolume", "PowerOn"
+    ActionId id{ActionId::Unknown};
     std::string displayName;   // e.g., "Set Volume", "Turn On"
     ActionCategory category;
     

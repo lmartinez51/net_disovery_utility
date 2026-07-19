@@ -105,7 +105,7 @@ public:
         ExecutionRoute route;
 
         // DIAL Support
-        if (action.id == "LaunchApplication(name)" || action.id == "LaunchApplication") {
+        if (action.id == ActionId::LaunchApplication) {
             bool isDial = false;
             for (const auto& r : device.roles) {
                 if (r == DeviceRole::DIALReceiver) {
@@ -142,6 +142,12 @@ public:
                     }
                 }
             }
+        } else if (action.id == ActionId::CheckReachable) {
+            route.transport = TransportFamily::Unknown;
+            if (!device.endpoints.empty()) {
+                route.preferredEndpoint = &device.endpoints[0];
+            }
+            return route;
         }
 
         // Default SOAP Support
@@ -149,9 +155,7 @@ public:
         
         // Find the most appropriate service based on action category
         StandardService targetService;
-        if (action.id == "GetProtocolInfo") {
-            targetService = StandardService::ConnectionManager;
-        } else if (action.category == ActionCategory::MediaPlayback || action.category == ActionCategory::MediaTransport) {
+        if (action.category == ActionCategory::MediaPlayback || action.category == ActionCategory::MediaTransport) {
             targetService = StandardService::AVTransport;
         } else if (action.category == ActionCategory::System || action.category == ActionCategory::Unknown) {
             targetService = StandardService::RenderingControl; // default for volume etc
@@ -183,60 +187,61 @@ public:
         SOAPRequest soapReq;
         
         if (targetService == StandardService::RenderingControl) {
-            if (action.id == "SetVolume(level)" || action.id == "SetVolume") {
+            if (action.id == ActionId::SetVolume) {
                 SetVolumeRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 req.targetVolume = 15; // Hardcoded placeholder for Phase 8A
                 soapReq = RenderingControlBuilder::BuildSetVolume(req);
-            } else if (action.id == "GetVolume" || action.id == "VolumeUp" || action.id == "VolumeDown") {
+            } else if (action.id == ActionId::GetVolume || action.id == ActionId::VolumeUp || action.id == ActionId::VolumeDown) {
                 // We map VolumeUp/VolumeDown to GetVolume for now just for the Phase 8A demo 
                 // until Phase 8B implements the real orchestration.
                 GetVolumeRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = RenderingControlBuilder::BuildGetVolume(req);
-            } else if (action.id == "GetMute") {
-                GetMuteRequest req;
-                req.instanceID = 0;
-                req.controlUrl = svcDesc->controlUrl;
-                soapReq = RenderingControlBuilder::BuildGetMute(req);
-            } else if (action.id == "SetMute" || action.id == "Mute") {
+            } else if (action.id == ActionId::Mute) {
                 SetMuteRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 req.muteStatus = true; // Hardcoded placeholder
                 soapReq = RenderingControlBuilder::BuildSetMute(req);
+            } else if (action.id == ActionId::Unmute) {
+                SetMuteRequest req;
+                req.instanceID = 0;
+                req.controlUrl = svcDesc->controlUrl;
+                req.muteStatus = false; // Hardcoded placeholder
+                soapReq = RenderingControlBuilder::BuildSetMute(req);
             } else {
                 return std::nullopt; // Action not supported yet
             }
         } else if (targetService == StandardService::AVTransport) {
-            if (action.id == "Play") {
+            if (action.id == ActionId::Play) {
                 PlayRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = AVTransportBuilder::BuildPlay(req);
-            } else if (action.id == "Pause") {
+            } else if (action.id == ActionId::Pause) {
                 PauseRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = AVTransportBuilder::BuildPause(req);
-            } else if (action.id == "Stop") {
+            } else if (action.id == ActionId::Stop) {
                 StopRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = AVTransportBuilder::BuildStop(req);
-            } else if (action.id == "Next") {
+            } else if (action.id == ActionId::Next) {
                 NextRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = AVTransportBuilder::BuildNext(req);
-            } else if (action.id == "Previous") {
+            } else if (action.id == ActionId::Previous) {
                 PreviousRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
                 soapReq = AVTransportBuilder::BuildPrevious(req);
-            } else if (action.id == "Seek") {
+            } else if (action.id == ActionId::Seek) {
                 SeekRequest req;
                 req.instanceID = 0;
                 req.controlUrl = svcDesc->controlUrl;
@@ -246,14 +251,7 @@ public:
                 return std::nullopt; // Action not supported yet
             }
         } else if (targetService == StandardService::ConnectionManager) {
-            if (action.id == "GetProtocolInfo") {
-                GetProtocolInfoRequest req;
-                req.instanceID = 0;
-                req.controlUrl = svcDesc->controlUrl;
-                soapReq = ConnectionManagerBuilder::BuildGetProtocolInfo(req);
-            } else {
-                return std::nullopt; // Action not supported yet
-            }
+            return std::nullopt;
         } else {
             return std::nullopt;
         }

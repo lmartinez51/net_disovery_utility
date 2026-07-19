@@ -63,20 +63,22 @@ void SamsungWebSocketStrategy::BuildRequest(ExecutionRequest& request, Execution
     
     route.metadata["WebSocket-Path"] = BuildWebSocketUrl(token);
 
-    std::string keyName = "";
-    if (request.action.id == "PowerOff") {
-        keyName = "KEY_POWER";
-    } else if (request.action.id == "SendKey") {
-        keyName = "KEY_UNKNOWN"; // We would normally extract the key from params
-    } else if (request.action.id == "VolumeUp") {
-        keyName = "KEY_VOLUP";
-    } else if (request.action.id == "VolumeDown") {
-        keyName = "KEY_VOLDOWN";
-    } else if (request.action.id == "SetVolume") {
-        keyName = "KEY_VOLDOWN"; // Simplification since SetVolume needs semantic mapping to keys
-    } else if (request.action.id == "Mute") {
-        keyName = "KEY_MUTE";
-    }
+    auto GetKeyFromAction = [](const ActionDescriptor& action) -> std::string {
+        if (action.id == ActionId::PowerOff) {
+            return "KEY_POWER";
+        } else if (action.id == ActionId::VolumeUp) {
+            return "KEY_VOLUP";
+        } else if (action.id == ActionId::VolumeDown) {
+            return "KEY_VOLDOWN";
+        } else if (action.id == ActionId::Mute) {
+            return "KEY_MUTE";
+        } else if (action.id == ActionId::SendKey) {
+            return "KEY_UNKNOWN"; // Would be extracted from params in real implementation
+        }
+        return "";
+    };
+
+    std::string keyName = GetKeyFromAction(request.action);
 
     if (!keyName.empty()) {
         route.metadata["WebSocket-Payload"] = BuildKeyPayload(keyName);

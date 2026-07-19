@@ -10,51 +10,63 @@ namespace NetDiscovery {
 
 void ActionResolver::Resolve(LogicalDevice& device) {
     device.actions.clear();
+    device.capabilityProfiles.clear();
     
-    auto addAction = [&device](const std::string& actionId) {
-        // Prevent duplicates
+    auto addAction = [&device](ActionId actionId) {
+        // Prevent duplicates in actions list
         for (const auto& a : device.actions) {
             if (a.id == actionId) return;
         }
         ActionDescriptor desc;
         desc.id = actionId;
-        // In a real system, parameters would be mapped here too.
         device.actions.push_back(desc);
+    };
+
+    auto addCapabilityProfile = [&device, &addAction](Capability cap, std::vector<ActionId> supportedActions) {
+        CapabilityProfile profile;
+        profile.capability = cap;
+        profile.globalConstraints = static_cast<uint32_t>(ExecutionConstraint::None);
+        
+        for (auto actionId : supportedActions) {
+            SupportedActionProfile sap;
+            sap.actionId = actionId;
+            sap.supportState = SupportState::Supported; // By default assume supported if we resolve it here
+            sap.constraints = static_cast<uint32_t>(ExecutionConstraint::None);
+            sap.reason = ConstraintReason::None;
+            profile.supportedActions.push_back(sap);
+
+            // Also add to the raw actions list for execution routing
+            addAction(actionId);
+        }
+
+        device.capabilityProfiles.push_back(profile);
     };
     
     for (const auto& cap : device.capabilities) {
         switch (cap) {
             case Capability::PowerControl:
-                addAction("PowerOn");
-                addAction("PowerOff");
+                addCapabilityProfile(cap, {ActionId::PowerOn, ActionId::PowerOff});
                 break;
             case Capability::VolumeControl:
-                addAction("VolumeUp");
-                addAction("VolumeDown");
-                addAction("SetVolume(level)");
+                addCapabilityProfile(cap, {ActionId::VolumeUp, ActionId::VolumeDown, ActionId::SetVolume, ActionId::GetVolume});
                 break;
             case Capability::Mute:
-                addAction("Mute");
-                addAction("Unmute");
+                addCapabilityProfile(cap, {ActionId::Mute, ActionId::Unmute});
                 break;
             case Capability::MediaPlayback:
-                addAction("Play");
-                addAction("Pause");
-                addAction("Stop");
+                addCapabilityProfile(cap, {ActionId::Play, ActionId::Pause, ActionId::Stop});
                 break;
             case Capability::MediaTransport:
-                addAction("Next");
-                addAction("Previous");
-                addAction("Seek");
+                addCapabilityProfile(cap, {ActionId::Next, ActionId::Previous, ActionId::Seek});
                 break;
             case Capability::ApplicationLaunching:
-                addAction("LaunchApplication(name)");
+                addCapabilityProfile(cap, {ActionId::LaunchApplication});
                 break;
             case Capability::InputSelection:
-                addAction("SelectInput(input)");
+                addCapabilityProfile(cap, {ActionId::SelectInput});
                 break;
             case Capability::RemoteControl:
-                addAction("SendKey(key)");
+                addCapabilityProfile(cap, {ActionId::SendKey});
                 break;
             default:
                 break;

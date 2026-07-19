@@ -241,7 +241,7 @@ ExecutionResult WebSocketTransport::Execute(const ExecutionRequest& request, con
         // We will do a non-blocking wait or short sleep to see if there's an incoming frame before sending ours.
         
         // Actually, we must send the command.
-        if (!request.action.id.empty()) {
+        if (request.action.id != ActionId::Unknown) {
             // The request.action.id contains the payload to send, but wait, 
             // the Strategy generated the JSON payload and put it where?
             // Usually we pass the JSON payload in metadata or in request.action.id.

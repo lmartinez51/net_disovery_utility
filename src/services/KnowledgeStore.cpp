@@ -54,6 +54,7 @@ void KnowledgeStore::UpdateFromDiscovery(const LogicalDevice& liveDevice) {
         newEntity.primaryClass = liveDevice.primaryClass;
         newEntity.roles = liveDevice.roles;
         newEntity.capabilities = liveDevice.capabilities;
+        newEntity.capabilityProfiles = liveDevice.capabilityProfiles;
         newEntity.endpoints = liveDevice.endpoints;
         newEntity.firstDiscovered = now;
         newEntity.lastSeen = now;
@@ -80,6 +81,7 @@ void KnowledgeStore::UpdateFromDiscovery(const LogicalDevice& liveDevice) {
         existing.roles = liveDevice.roles; // Overwrite
         
         MergeCapabilities(existing, liveDevice.capabilities);
+        MergeCapabilityProfiles(existing, liveDevice.capabilityProfiles);
         MergeEndpoints(existing, liveDevice.endpoints);
         
         AddJournalEntry(existing, JournalEventType::Validated, "Validated via active discovery.");
@@ -196,6 +198,35 @@ void KnowledgeStore::MergeCapabilities(KnowledgeEntity& existing, const std::vec
     }
 }
 
+void KnowledgeStore::MergeCapabilityProfiles(KnowledgeEntity& existing, const std::vector<CapabilityProfile>& liveProfiles) {
+    for (const auto& liveProfile : liveProfiles) {
+        bool found = false;
+        for (auto& existProfile : existing.capabilityProfiles) {
+            if (existProfile.capability == liveProfile.capability) {
+                // Merge actions
+                for (const auto& liveAct : liveProfile.supportedActions) {
+                    bool actFound = false;
+                    for (auto& existAct : existProfile.supportedActions) {
+                        if (existAct.actionId == liveAct.actionId) {
+                            existAct = liveAct;
+                            actFound = true;
+                            break;
+                        }
+                    }
+                    if (!actFound) {
+                        existProfile.supportedActions.push_back(liveAct);
+                    }
+                }
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            existing.capabilityProfiles.push_back(liveProfile);
+        }
+    }
+}
+
 void KnowledgeStore::AddJournalEntry(KnowledgeEntity& entity, JournalEventType type, const std::string& description) {
     JournalEntry entry;
     entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -229,6 +260,17 @@ std::string KnowledgeStore::SerializeEntity(const KnowledgeEntity& entity) const
         oss << "CAPABILITIES=";
         for (size_t i = 0; i < entity.capabilities.size(); ++i) {
             oss << static_cast<int>(entity.capabilities[i]) << (i + 1 == entity.capabilities.size() ? "" : ",");
+        }
+        oss << "\n";
+    }
+
+    for (const auto& profile : entity.capabilityProfiles) {
+        oss << "CPROFILE=" << static_cast<int>(profile.capability) << "|" << profile.globalConstraints;
+        for (const auto& act : profile.supportedActions) {
+            oss << "|" << static_cast<int>(act.actionId) << ":" 
+                << static_cast<int>(act.supportState) << ":" 
+                << act.constraints << ":" 
+                << static_cast<int>(act.reason);
         }
         oss << "\n";
     }
@@ -285,6 +327,36 @@ KnowledgeEntity KnowledgeStore::DeserializeEntity(const std::string& data) const
                 std::string c;
                 while (std::getline(css, c, ',')) {
                     if (!c.empty()) entity.capabilities.push_back(static_cast<Capability>(std::stoi(c)));
+                }
+            }
+            else if (key == "CPROFILE") {
+                std::istringstream css(val);
+                std::string token;
+                std::vector<std::string> parts;
+                while (std::getline(css, token, '|')) {
+                    parts.push_back(token);
+                }
+                if (parts.size() >= 2) {
+                    CapabilityProfile profile;
+                    profile.capability = static_cast<Capability>(std::stoi(parts[0]));
+                    profile.globalConstraints = std::stoul(parts[1]);
+                    for (size_t i = 2; i < parts.size(); ++i) {
+                        std::istringstream ass(parts[i]);
+                        std::string aToken;
+                        std::vector<std::string> aParts;
+                        while (std::getline(ass, aToken, ':')) {
+                            aParts.push_back(aToken);
+                        }
+                        if (aParts.size() == 4) {
+                            SupportedActionProfile sap;
+                            sap.actionId = static_cast<ActionId>(std::stoi(aParts[0]));
+                            sap.supportState = static_cast<SupportState>(std::stoi(aParts[1]));
+                            sap.constraints = std::stoul(aParts[2]);
+                            sap.reason = static_cast<ConstraintReason>(std::stoi(aParts[3]));
+                            profile.supportedActions.push_back(sap);
+                        }
+                    }
+                    entity.capabilityProfiles.push_back(profile);
                 }
             }
             else if (key == "ROLES") {

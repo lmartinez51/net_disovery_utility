@@ -24,8 +24,7 @@ ExecutionResult DummyTransport::Execute(
     std::cout << "Device:\n";
     std::cout << (request.device.displayName.empty() ? "Unknown Device" : request.device.displayName) << "\n\n";
 
-    std::cout << "Action:\n";
-    std::cout << request.action.id << "\n\n";
+    std::cout << "[DummyTransport] Simulating execution of action: " << ToString(request.action.id) << "\n";
 
     std::cout << "Selected Transport:\n";
     std::cout << ToString(route.transport) << "\n\n";

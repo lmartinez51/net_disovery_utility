@@ -16,6 +16,7 @@
 #include "NormalizedService.h"
 #include "ServiceDescriptor.h"
 #include "StandardService.h"
+#include "CapabilityProfile.h"
 
 #include <string>
 #include <vector>
@@ -84,6 +85,18 @@ struct LogicalDevice {
     // ----------------------------------------------------------------
     std::vector<Capability> capabilities;
     std::vector<ActionDescriptor> actions;
+    
+    // ----------------------------------------------------------------
+    // Semantic Knowledge Profile
+    // ----------------------------------------------------------------
+    std::vector<CapabilityProfile> capabilityProfiles;
+
+    const CapabilityProfile* GetCapabilityProfile(Capability cap) const {
+        for (const auto& profile : capabilityProfiles) {
+            if (profile.capability == cap) return &profile;
+        }
+        return nullptr;
+    }
     
     bool HasCapability(Capability cap) const {
         for (const auto& c : capabilities) {

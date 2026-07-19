@@ -8,6 +8,7 @@
 #include "KnowledgeModels.h"
 #include "DeviceClass.h"
 #include "Capability.h"
+#include "CapabilityProfile.h"
 #include "ProtocolEndpoint.h"
 
 #include <string>
@@ -40,6 +41,7 @@ struct KnowledgeEntity {
     PrimaryDeviceClass primaryClass{PrimaryDeviceClass::Unknown};
     std::vector<DeviceRole> roles;
     std::vector<Capability> capabilities;
+    std::vector<CapabilityProfile> capabilityProfiles;
     std::vector<std::string> compatibleControllers; // Resolved dynamically via ControllerRegistry, persisted as strings
     std::vector<ProtocolEndpoint> endpoints;
     std::map<std::string, std::string> credentials; // Persisted authentication data

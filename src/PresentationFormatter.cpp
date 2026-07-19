@@ -83,7 +83,7 @@ void PresentationFormatter::PrintLogicalDevices(const std::vector<LogicalDevice>
             std::cout << "  (None)\n";
         } else {
             for (const auto& action : dev.actions) {
-                std::cout << "  ✓ " << action.id;
+                std::cout << "    - " << ToString(action.id) << "\n";
                 if (!action.supportedParameters.empty()) {
                     std::cout << "(";
                     for (size_t i = 0; i < action.supportedParameters.size(); ++i) {

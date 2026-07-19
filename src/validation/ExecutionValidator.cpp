@@ -29,14 +29,15 @@ void ExecutionValidator::RunScenario(const std::vector<LogicalDevice>& devices, 
     std::cout << "  [DEMO] Found capable device: " << targetDevice->displayName 
               << " (Supports " << ToString(scenario.requiredCapability) << ")\n\n";
     
-    for (const auto& actionStr : scenario.actionsToTest) {
+    for (const auto& actionId : scenario.actionsToTest) {
+        std::string actionStr = ToString(actionId);
         std::cout << "  --- Executing " << actionStr << " ---\n";
         ActionDescriptor actionToExecute;
-        actionToExecute.id = actionStr;
+        actionToExecute.id = actionId;
         actionToExecute.displayName = actionStr;
 
         std::map<std::string, std::string> reqParams;
-        if (actionStr == "LaunchApplication(name)") {
+        if (actionId == ActionId::LaunchApplication) {
             reqParams["name"] = "YouTube";
         }
         ExecutionRequest req { *targetDevice, actionToExecute, reqParams, ExecutionContext{}, 5000, 0 };

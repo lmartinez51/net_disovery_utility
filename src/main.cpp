@@ -347,7 +347,7 @@ int main(int argc, char* argv[])
     NetDiscovery::validation::ExecutionScenario volumeScenario{
         "Volume Control Validation",
         Capability::VolumeControl,
-        {"GetVolume", "GetMute", "SetVolume"}
+        {ActionId::GetVolume, ActionId::Mute, ActionId::SetVolume}
     };
 
     validator.RunScenario(logicalDevices, volumeScenario);
@@ -355,7 +355,7 @@ int main(int argc, char* argv[])
     NetDiscovery::validation::ExecutionScenario appScenario{
         "Application Launch Validation",
         Capability::ApplicationLaunching,
-        {"LaunchApplication(name)"}
+        {ActionId::LaunchApplication}
     };
     
     validator.RunScenario(logicalDevices, appScenario);

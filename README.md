@@ -15,7 +15,7 @@ decoupled and designed for future portability to **ESP-IDF** with minimal code c
 
 ## Current Phase
 
-**Phase 9.1 — First Vendor Backend (Samsung)**
+**Phase 10 — Semantic Execution Layer**
 
 The project has successfully moved beyond discovery and foundational intelligence into execution:
 - Active and Passive SSDP Discovery
@@ -27,6 +27,8 @@ The project has successfully moved beyond discovery and foundational intelligenc
 - Shared Execution Services (Execution Context, Authentication Manager, Knowledge Synchronization)
 - Communication Transports (SOAP, DIAL, WakeOnLAN, WebSocket)
 - Vendor Transport Framework & Execution Strategies
+- First Vendor Backend (Samsung Controller)
+- Semantic Execution Layer (Action Normalization, Capability Profiles)
 
 ---
 
@@ -199,9 +201,9 @@ The pipeline architecture (`DeviceFusionEngine`, `ControllerResolver`, `XmlAnaly
 | **7.5** | **Shared Execution Services**<br>- Execution Context (✅ Built)<br>- Retry Policy (⏳ Deferred)<br>- Authentication Manager (✅ Built)<br>- Transport Capabilities (⏳ Deferred) | ✅ |
 | **8** | **SOAP Response Parsing Framework**<br>- Service-Specific Parsers (`RenderingControlParser`, etc.)<br>- Architectural transition towards typed `payload` models | ✅ |
 | **9** | **Vendor Transport Framework**<br>- `VendorTransport` base interface<br>- Transport Registry (decoupled backend registration) | ✅ |
-| **9.1** | **First Vendor Backend (Samsung)**<br>- `SamsungController` (IR, SOAP, DIAL, WebSocket strategies)<br>- Samsung Remote (WebSocket / Proprietary APIs) | ⏳ |
-| **10** | **Semantic Execution Layer**<br>- Application Resolver<br>- Vendor Parameter Mapping<br>- Action Normalization<br>- Workflow Orchestration | |
-| **11** | **ESP32 Runtime Port**<br>- Migration to esp32s3-camila | |
+| **9.1** | **First Vendor Backend (Samsung)**<br>- `SamsungController` (IR, SOAP, DIAL, WebSocket strategies)<br>- Samsung Remote (WebSocket / Proprietary APIs) | ✅ |
+| **10** | **Semantic Execution Layer**<br>- Application Resolver<br>- Vendor Parameter Mapping<br>- Action Normalization<br>- Workflow Orchestration | ✅ |
+| **11** | **ESP32 Runtime Port**<br>- Migration to esp32s3-camila | ⏳ |
 
 ---
 

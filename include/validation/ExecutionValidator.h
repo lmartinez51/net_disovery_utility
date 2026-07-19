@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <string>
-#include <iostream>
 #include "../core/LogicalDevice.h"
+#include "../core/ActionId.h"
 #include "../DeviceExecutor.h"
 
 namespace NetDiscovery {
@@ -15,7 +15,7 @@ namespace validation {
 struct ExecutionScenario {
     std::string name;
     Capability requiredCapability;
-    std::vector<std::string> actionsToTest;
+    std::vector<ActionId> actionsToTest;
 };
 
 /**

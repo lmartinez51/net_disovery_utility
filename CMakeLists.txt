@@ -97,6 +97,15 @@ set(NETDISCOVERY_SOURCES
     src/parsing/soap/RenderingControlParser.cpp
     src/parsing/soap/AVTransportParser.cpp
     src/parsing/soap/ConnectionManagerParser.cpp
+    
+    # ── Phase 10: Semantic Execution Layer ────────────
+    src/semantic/IntentCanonicalizer.cpp
+    src/semantic/ParameterNormalizer.cpp
+    src/semantic/LogicalEntityResolver.cpp
+    src/semantic/DeviceMatcher.cpp
+    src/semantic/CapabilityFilter.cpp
+    src/semantic/WorkflowPlanner.cpp
+    src/semantic/SemanticOrchestrator.cpp
 )
 
 set(NETDISCOVERY_HEADERS
@@ -208,6 +217,19 @@ set(NETDISCOVERY_HEADERS
     include/parsing/soap/AVTransportParser.h
     include/parsing/soap/ConnectionManagerParser.h
     include/transports/soap/SOAPServiceTypes.h
+
+    # ── Phase 10: Semantic Execution Layer ────────────
+
+    include/semantic/SemanticError.h
+    include/semantic/SemanticDataModels.h
+    include/semantic/IntentCanonicalizer.h
+    include/semantic/ParameterNormalizer.h
+    include/semantic/LogicalEntityResolver.h
+    include/semantic/DeviceMatcher.h
+    include/semantic/CapabilityFilter.h
+    include/semantic/WorkflowTemplate.h
+    include/semantic/WorkflowPlanner.h
+    include/semantic/SemanticOrchestrator.h
 )
 
 # ============================================================
